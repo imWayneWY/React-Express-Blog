@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import AppIndex from './containers';
+import AppIndex from './containers/AppIndex';
 
 class App extends Component {
   render() {
