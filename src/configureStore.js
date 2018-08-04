@@ -1,4 +1,4 @@
-import { createSagaMiddleware } from 'redux-saga';
+import createSagaMiddleware from 'redux-saga';
 import { createStore, compose, applyMiddleware } from 'redux';
 import rootReducer from './reducers';
 import rootSaga from './saga';
@@ -14,7 +14,7 @@ if(process.env.NODE_ENV === 'production'){
     );
 } else {
     storeEnhancers = compose(
-        applyMiddleware(...middlewares,sagaMiddleware),
+        applyMiddleware(...middleware,sagaMiddleware),
         (win && win.devToolsExtension)? win.devToolsExtension() : (f)=>f
     )
 }
