@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux';
 import Banner from "../components/banner/Banner";
+import Menu from "../components/menu/Menu";
 
 class Front extends PureComponent {
   render() {
@@ -10,6 +11,9 @@ class Front extends PureComponent {
       <div>
         <div>
           <Banner />
+          <Menu 
+            getArticleList={(value)=>{}} 
+            categories={['Home','React','Express']}/>
           This is front page
         </div>
       </div>
