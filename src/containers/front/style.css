@@ -5,6 +5,7 @@
     padding-top: 20px;
 }
 .login-container{
+    width: 35%;
     flex:1;
     margin-left: 10px;
 }

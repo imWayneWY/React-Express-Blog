@@ -5,6 +5,10 @@ import SwipeableViews from 'react-swipeable-views';
 import AppBar from '@material-ui/core/AppBar';
 import Typography from '@material-ui/core/Typography';
 import PropTypes from 'prop-types';
+import LoginForm from './LoginForm';
+import './style.css';
+import RegisterForm from './RegisterForm';
+
 
 function TabContainer({ children, dir }) {
   return (
@@ -36,7 +40,7 @@ export default class Login extends PureComponent {
   render() {
 
     return (
-      <div className="login-container">
+      <div className="container">
         <AppBar position="static" color="default">
           <Tabs
             value={this.state.value}
@@ -54,8 +58,12 @@ export default class Login extends PureComponent {
           index={this.state.value}
           onChangeIndex={this.handleChangeIndex}
         >
-          <TabContainer>Login Page</TabContainer>
-          <TabContainer>RegisterPage</TabContainer>
+          <TabContainer className="form-style">
+            <LoginForm/>
+          </TabContainer>
+          <TabContainer className="form-style">
+            <RegisterForm/>
+          </TabContainer>
         </SwipeableViews>
       </div>
     );

@@ -29,9 +29,9 @@ class Front extends PureComponent {
                 <Route component={NotFound}/>
               </Switch>
             </div>
-            <div className="login-container">
-              <Login/> 
-            </div>
+          </div>
+          <div className="login-container">
+            <Login/> 
           </div>
         </div>
       </div>

@@ -1,0 +1,15 @@
+.container{
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-style{
+    width: 100%;
+    margin-left: 15%;
+    text-align: center;
+    padding-top: 20px;
+}
+.button{
+    width: 60%;
+}
