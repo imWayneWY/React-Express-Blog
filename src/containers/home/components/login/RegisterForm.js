@@ -10,15 +10,15 @@ export default class RegisterForm extends PureComponent {
     }
     render() {
     return (
-      <FormControl onSubmit={this.handleRegister} className="container">
+      <FormControl onSubmit={this.handleRegister} className="form-container">
         <TextField 
-          id="username"
+          id="registerUsername"
           label="please enter a username"
           margin="normal"
           className="form-style"
         />
         <TextField 
-          id="password1"
+          id="registerPassword1"
           label="please enter a password"
           margin="normal"
           type="password"
@@ -26,7 +26,7 @@ export default class RegisterForm extends PureComponent {
           className="form-style"
         />
         <TextField 
-          id="password2"
+          id="registerPassword2"
           label="please repeat password"
           margin="normal"
           type="password"

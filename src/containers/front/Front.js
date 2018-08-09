@@ -21,7 +21,7 @@ class Front extends PureComponent {
             getArticleList={(value)=>{}} 
             categories={['Home','React','Express']}/>
         </div>
-        <div className="container">
+        <div className="front-container">
           <div className="content-container">
             <div className="content">
               <Switch>

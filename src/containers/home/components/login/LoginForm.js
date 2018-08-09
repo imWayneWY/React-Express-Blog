@@ -10,15 +10,15 @@ export default class LoginForm extends PureComponent {
     }
     render() {
     return (
-      <FormControl onSubmit={this.handleLogin} className="container">
+      <FormControl onSubmit={this.handleLogin} className="form-container">
         <TextField 
-          id="username"
+          id="loginUsername"
           label="Username"
           margin="normal"
           className="form-style"
         />
         <TextField 
-          id="password"
+          id="loginPassword"
           label="Password"
           margin="normal"
           type="password"

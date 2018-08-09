@@ -5,16 +5,16 @@
     padding-top: 20px;
 }
 .login-container{
-    width: 35%;
     flex:1;
     margin-left: 10px;
+    background-color:#eee;
 }
-.container{
+.front-container{
     display: flex;
     flex-direction: row;
     justify-content: center;
     background: #eee;
 }
 .content{
-    width: 570px;
+    width: 90%;
 }

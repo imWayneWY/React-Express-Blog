@@ -4,7 +4,6 @@ import Tab from '@material-ui/core/Tab';
 import SwipeableViews from 'react-swipeable-views';
 import AppBar from '@material-ui/core/AppBar';
 import Typography from '@material-ui/core/Typography';
-import PropTypes from 'prop-types';
 import LoginForm from './LoginForm';
 import './style.css';
 import RegisterForm from './RegisterForm';
@@ -17,11 +16,6 @@ function TabContainer({ children, dir }) {
     </Typography>
   );
 }
-
-TabContainer.propTypes = {
-  children: PropTypes.node.isRequired,
-  dir: PropTypes.string.isRequired,
-};
 
 
 export default class Login extends PureComponent {
@@ -40,7 +34,7 @@ export default class Login extends PureComponent {
   render() {
 
     return (
-      <div className="container">
+      <div className="form-container">
         <AppBar position="static" color="default">
           <Tabs
             value={this.state.value}

@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react'
 import ArticleList from './components/articleList/ArticleList';
+import './style.css';
 
 export default class Home extends PureComponent {
   render() {
@@ -14,7 +15,7 @@ export default class Home extends PureComponent {
     //   </div>
     // )
     return(
-      <div>
+      <div className="home-container">
         <ArticleList data={[
           {
             title: "React",
