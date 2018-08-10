@@ -14,7 +14,8 @@ export const actionTypes = {
     FETCH_START: "FETCH_START",
     FETCH_END: "FETCH_END",
     SET_MESSAGE: "SET_MESSAGE",
-    USER_LOGIN: "USER_LOGIN"
+    USER_LOGIN: "USER_LOGIN",
+    RESPONSE_USER_INFO: "RESPONSE_USER_INFO",
 };
 
 export const action = {
@@ -46,10 +47,10 @@ export function reducer(state=initialState,action) {
                     content: action.msgContent
                 }
             }
-        case actionTypes.USER_LOGIN:
+        case actionTypes.RESPONSE_USER_INFO:
             return{
-                ...state,
-            };
+                ...state, userInfo: action.data
+            }
         default:
             return state;
     }
