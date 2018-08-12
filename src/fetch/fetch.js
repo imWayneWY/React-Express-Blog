@@ -2,7 +2,26 @@ import axios from 'axios';
 
 let config = {
     baseURL: '/api',
+    transformRequest: [
+        function(data) {
+            let ret = '';
+            for (let it in data){
+                ret += encodeURIComponent(it)+'='+encodeUROComponent(data[it])+'&'
+            }
+            return ret
+        }
+    ],
+    transformResponse: [
+        function(data){
+            return data
+        }
+    ],
+    headers: {
+        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+    },
+    timeout: 10000,
+    responseType: 'json'
 };
-export functin post(url,data){
+export function post(url,data){
     return axios.post(url,data,config)
 }
