@@ -18,10 +18,10 @@ export const actionTypes = {
     RESPONSE_USER_INFO: "RESPONSE_USER_INFO",
 };
 
-export const action = {
+export const actions = {
     get_login: function(username, password){
         return {
-            type: actionTypes.HOME_LOAD,
+            type: actionTypes.USER_LOGIN,
             username,
             password
         }

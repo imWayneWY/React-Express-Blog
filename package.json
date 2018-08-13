@@ -35,10 +35,10 @@
     "redux-saga": "^0.16.0"
   },
   "scripts": {
-    "start-dev-api": "nodemon --watch ./server/api/index.js",
-    "start-backend": "cross-env NODE_ENV=development node ./server/index.js",
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start-dev-api": "nodemon --watch ./server/api ./server/api/index.js",
+    "watch-client": "cross-env NODE_ENV=development node ./server/index.js",
+    "start-react": "react-scripts start",
+    "build-react": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },

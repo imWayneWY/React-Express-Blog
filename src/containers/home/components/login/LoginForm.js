@@ -1,16 +1,18 @@
 import React, { PureComponent } from 'react'
 import TextField from '@material-ui/core/TextField';
-import FormControl from '@material-ui/core/FormControl';
 import Button from '@material-ui/core/Button';
 import './style.css';
 
 export default class LoginForm extends PureComponent {
     handleLogin = (e) => {
         e.preventDefault();
+        let username = document.querySelector("#loginUsername").value;
+        let password = document.querySelector("#loginPassword").value;
+        this.props.login(username,password);
     }
     render() {
     return (
-      <FormControl onSubmit={this.handleLogin} className="form-container">
+      <form onSubmit={this.handleLogin.bind(this)} className="form-container">
         <TextField 
           id="loginUsername"
           label="Username"
@@ -32,7 +34,7 @@ export default class LoginForm extends PureComponent {
           className="button">
           Login
         </Button>
-      </FormControl>
+      </form>
     )
   }
 }

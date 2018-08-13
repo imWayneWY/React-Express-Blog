@@ -17,7 +17,7 @@ app.use('/api',(req,res)=>{
 app.use('/',Express.static(path.join(__dirname,"..",'build')));
 app.use('/', connectHistoryApiFallback());
 
-const targetUrl = `http://${config.apiHost}:${config.apiPost}`;
+const targetUrl = `http://${config.apiHost}:${config.apiPort}`;
 const proxy = httpProxy.createProxyServer({
     target:targetUrl
 });

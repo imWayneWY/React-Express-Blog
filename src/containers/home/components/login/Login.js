@@ -53,7 +53,7 @@ export default class Login extends PureComponent {
           onChangeIndex={this.handleChangeIndex}
         >
           <TabContainer className="form-style">
-            <LoginForm/>
+            <LoginForm login={this.props.login}/>
           </TabContainer>
           <TabContainer className="form-style">
             <RegisterForm/>

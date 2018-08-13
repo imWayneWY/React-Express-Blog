@@ -7,12 +7,13 @@ import Menu from "../components/menu/Menu";
 import Home from '../home/Home';
 import './style.css';
 import Login from '../home/components/login/Login';
+import { bindActionCreators } from 'redux';
+import {actions as DispatchActions} from '../../reducers';
 
 
 class Front extends PureComponent {
   render() {
     const {url} = this.props.match;
-    // const {login, register} = this.props;
     return (
       <div>
         <div>
@@ -31,7 +32,11 @@ class Front extends PureComponent {
             </div>
           </div>
           <div className="login-container">
-            <Login/> 
+            {
+              this.props.userInfo.userId
+              ? <div>logined</div>
+              : <Login login={this.props.login}/>
+            }
           </div>
         </div>
       </div>
@@ -42,13 +47,13 @@ class Front extends PureComponent {
 function mapStateToProps(state) {
   return{
     // categories: state.admin.tags,
-    // userInfo: state.globalState.userInfo
+    userInfo: state.globalState.userInfo
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return{
-
+    login: bindActionCreators(DispatchActions.get_login, dispatch)
   }
 }
 
