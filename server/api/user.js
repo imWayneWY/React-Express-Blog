@@ -3,7 +3,7 @@ import {MD5_SUFFIX, responseClient, md5} from '../util';
 import User from '../../models/user';
 const router = Express.Router();
 
-router.post('login',(req,res)=>{
+router.post('/login',(req,res)=>{
     let {username,password} = req.body;
     if(!username){
         responseClient(res,400,2,'username is needed');
@@ -34,3 +34,5 @@ router.post('login',(req,res)=>{
         responseClient(res);
     })
 });
+
+module.exports = router;

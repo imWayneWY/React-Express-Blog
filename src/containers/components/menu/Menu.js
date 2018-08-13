@@ -15,7 +15,6 @@ export default class Menu extends PureComponent {
 
   render() {
     return (
-      <div>
         <Tabs 
           value = {this.state.value}
           onChange = {this.handleChange}
@@ -28,7 +27,6 @@ export default class Menu extends PureComponent {
                 ))
             }
         </Tabs>
-      </div>
     )
   }
 }

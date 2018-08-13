@@ -7,4 +7,6 @@ router.get('/getUsers',(req,res)=>{
         total: 0,
         list: []
     };
-})
+});
+
+module.exports = router;

@@ -4,7 +4,6 @@ import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
-import mongoose from 'mongoose';
 
 const port = config.apiPort;
 
@@ -22,7 +21,7 @@ app.use('/',require('./main'));
 app.use('/admin',require('./admin'));
 
 mongoose.Promise = require('bluebird');
-mongoose.connect(`cmongodb://${config.dbHost}:${config.dbPort}/blog`,function(err){
+mongoose.connect(`mongodb://${config.dbHost}:${config.dbPort}/blog`,{ useNewUrlParser: true },function(err){
     if(err){
         console.log(err, "DataBase connect failed");
     }

@@ -5,7 +5,7 @@ module.exports = {
     apiHost: APIHOST || '127.0.0.1',
     apiPort: APIPORT || '3030',
     dbHost: "localhost",
-    dbport: "27017",
+    dbPort: "27017",
     app: {
         title: "personal blog",
         description: "demo",
