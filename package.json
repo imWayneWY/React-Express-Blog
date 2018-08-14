@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@material-ui/core": "^1.4.3",
+    "@material-ui/icons": "^2.0.2",
     "axios": "^0.18.0",
     "babel": "^6.23.0",
     "babel-core": "^6.26.3",
@@ -39,6 +40,7 @@
     "watch-client": "cross-env NODE_ENV=development node ./server/index.js",
     "start-react": "react-scripts start",
     "build-react": "react-scripts build",
+    "start": "npm run watch-client & npm run start-dev-api",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },

@@ -25,6 +25,13 @@ export const actions = {
             username,
             password
         }
+    },
+    clear_msg: function(){
+        return{
+            type: actionTypes.SET_MESSAGE,
+            msgType: 1,
+            msgContent: ''
+        }
     }
 };
 

@@ -4,11 +4,15 @@ import NotFound from '../components/notFound/NotFound';
 import Admin from './admin/Admin';
 import Front from './front/Front';
 import Loading from './components/loading/Loading';
+import Notification from '../components/notification/Notification';
+import {bindActionCreators} from 'redux';
+import { actions } from '../reducers';
+import {connect} from 'react-redux';
+
+const {clear_msg } = actions;
+
 
 class AppIndex extends PureComponent {
-    openNotification(type,message){
-
-    }
     render(){
         let { isFetching } = this.props;
         return(
@@ -27,10 +31,28 @@ class AppIndex extends PureComponent {
                         )
                         : null
                     }
+                    <Notification content="just for test" type="success"/>
                 </div>
             </Router>
         );
     };
 }
 
-export default AppIndex;
+function mapStateToProps(state) {
+    return {
+        notification: state.globalState.msg,
+        isFetching: state.globalState.isFetching,
+    }
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        clear_msg: bindActionCreators(clear_msg, dispatch),
+    }
+}
+
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(AppIndex)
