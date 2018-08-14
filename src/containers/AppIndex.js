@@ -9,7 +9,7 @@ import {bindActionCreators} from 'redux';
 import { actions } from '../reducers';
 import {connect} from 'react-redux';
 
-const {clear_msg } = actions;
+const {clear_msg , user_auth} = actions;
 
 
 class AppIndex extends PureComponent {
@@ -26,16 +26,18 @@ class AppIndex extends PureComponent {
                     {isFetching && <Loading/>}
                     {this.props.notification && this.props.notification.content
                         ? (this.props.notification.type === 1
-                            ? this.openNotification('success',this.props.notification.content)
-                            : this.openNotification('error', this.props.notification.content)
+                            ? <Notification content={this.props.notification.content} type="success" clearMsg={this.props.clear_msg}/>
+                            : <Notification content={this.props.notification.content} type="error" clearMsg={this.props.clear_msg}/>
                         )
                         : null
                     }
-                    <Notification content="just for test" type="success"/>
                 </div>
             </Router>
         );
     };
+    componentDidMount(){
+        this.props.user_auth();
+    }
 }
 
 function mapStateToProps(state) {
@@ -48,6 +50,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         clear_msg: bindActionCreators(clear_msg, dispatch),
+        user_auth: bindActionCreators(user_auth, dispatch)
     }
 }
 

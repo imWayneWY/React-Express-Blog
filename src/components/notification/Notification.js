@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
-import CheckCircleIcon from '@material-ui/icons/CheckCircle'
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import ErrorIcon from '@material-ui/icons/Error';
 import './style.css';
 
@@ -11,10 +11,10 @@ export default class Notification extends PureComponent{
         open: true
     }
     handleClose = (event,reason) => {
+        this.props.clearMsg();
         if (reason === 'clickaway') {
             return;
         }
-      
         this.setState({ open: false });
     };
     render(){

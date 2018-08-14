@@ -25,3 +25,6 @@ let config = {
 export function post(url,data){
     return axios.post(url,data,config)
 }
+export function get(url){
+    return axios.get(url,config);
+}

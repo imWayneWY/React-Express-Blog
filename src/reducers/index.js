@@ -16,6 +16,7 @@ export const actionTypes = {
     SET_MESSAGE: "SET_MESSAGE",
     USER_LOGIN: "USER_LOGIN",
     RESPONSE_USER_INFO: "RESPONSE_USER_INFO",
+    USER_AUTH: "USER_AUTH"
 };
 
 export const actions = {
@@ -31,6 +32,11 @@ export const actions = {
             type: actionTypes.SET_MESSAGE,
             msgType: 1,
             msgContent: ''
+        }
+    },
+    user_auth: function(){
+        return{
+            type: actionTypes.USER_AUTH
         }
     }
 };

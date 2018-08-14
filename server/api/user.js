@@ -34,5 +34,14 @@ router.post('/login',(req,res)=>{
         responseClient(res);
     })
 });
+router.get('/userInfo',function(req,res){
+    if(req.session.userInfo){
+        console.log("session succ");
+        responseClient(res,200,0,'',req.session.userInfo);
+    }else{
+        console.log("session fail");
+        responseClient(res,200,1,'please login again',req.session.userInfo);
+    }
+});
 
 module.exports = router;

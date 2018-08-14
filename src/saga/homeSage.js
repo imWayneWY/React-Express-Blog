@@ -1,6 +1,6 @@
 import { put, take, call } from 'redux-saga/effects';
 import { actionTypes } from '../reducers';
-import {post} from '../fetch/fetch';
+import { get, post } from '../fetch/fetch';
 
 export function* login(username,password) {
     yield put({type: actionTypes.FETCH_START});
@@ -23,6 +23,24 @@ export function* loginFlow(){
             yield put({type: actionTypes.RESPONSE_USER_INFO, data:info.data});
         }
         else{
+        }
+    }
+}
+
+export function* user_auth(){
+    while(true){
+        yield take(actionTypes.USER_AUTH);
+        try{
+            yield put({type:actionTypes.FETCH_START});
+            let response = yield call(get, 'user/userInfo');
+            let info = response.data;
+            if(info && info.code === 0){
+                yield put({type:actionTypes.RESPONSE_USER_INFO,data:info.data})
+            }
+        }catch(err){
+            console.log(err);
+        }finally{
+            yield put({type: actionTypes.FETCH_END});
         }
     }
 }
