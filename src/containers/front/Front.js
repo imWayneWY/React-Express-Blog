@@ -9,9 +9,26 @@ import './style.css';
 import Login from '../home/components/login/Login';
 import { bindActionCreators } from 'redux';
 import {actions as DispatchActions} from '../../reducers';
-
+import Logined from '../home/components/logined/Logined';
 
 class Front extends PureComponent {
+  constructor(props){
+    super(props);
+    this.props.userInfo.username
+    ? this.state={logined: true}
+    : this.state={logined: false}
+  }
+  handleLogout = () => {
+    this.props.logout();
+    this.setState({logined: false});
+  }
+  componentWillReceiveProps(nextProps) {
+    if(nextProps.userInfo.username){
+      this.setState({logined: true});
+    }else{
+      this.setState({logined: false});
+    }
+}
   render() {
     const {url} = this.props.match;
     return (
@@ -33,9 +50,9 @@ class Front extends PureComponent {
           </div>
           <div className="login-container">
             {
-              this.props.userInfo.userId
-              ? <div>logined</div>
-              : <Login login={this.props.login}/>
+              this.state.logined
+              ? <Logined userInfo = {this.props.userInfo} logout={this.handleLogout.bind(this)}/> 
+              : <Login login={this.props.login} register={this.props.register}/>
             }
           </div>
         </div>
@@ -53,7 +70,9 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return{
-    login: bindActionCreators(DispatchActions.get_login, dispatch)
+    login: bindActionCreators(DispatchActions.get_login, dispatch),
+    register: bindActionCreators(DispatchActions.register,dispatch),
+    logout: bindActionCreators(DispatchActions.logout, dispatch)
   }
 }
 

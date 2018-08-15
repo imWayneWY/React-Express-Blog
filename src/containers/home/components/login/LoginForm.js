@@ -58,23 +58,24 @@ export default class LoginForm extends PureComponent {
             }
           })
           return;
-        } else {
-          isUsername
-          ?this.setState({
-            username: value,
-            usernameState: {
-              error: false,
-              label: "Username"
-            }
-          })
-          :this.setState({
-            password: value,
-            passwordState: {
-              error: false,
-              label: "Password"
-            }
-          })
-        }
+        }  
+
+        isUsername
+        ?this.setState({
+          username: value,
+          usernameState: {
+            error: false,
+            label: "Username"
+          }
+        })
+        :this.setState({
+          password: value,
+          passwordState: {
+            error: false,
+            label: "Password"
+          }
+        })
+        
     };
     render() {
     return (

@@ -56,7 +56,7 @@ export default class Login extends PureComponent {
             <LoginForm login={this.props.login}/>
           </TabContainer>
           <TabContainer className="form-style">
-            <RegisterForm/>
+            <RegisterForm register={this.props.register}/>
           </TabContainer>
         </SwipeableViews>
       </div>

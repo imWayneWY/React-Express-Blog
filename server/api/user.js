@@ -22,7 +22,6 @@ router.post('/login',(req,res)=>{
             let data = {};
             data.username = userInfo.username;
             data.userType = userInfo.type;
-            data.userId = userInfo._id;
             //set session
             req.session.userInfo = data;
 
@@ -34,13 +33,55 @@ router.post('/login',(req,res)=>{
         responseClient(res);
     })
 });
+router.post('/register',function(req,res){
+    console.log('gottcha');
+    let {username, password} = req.body;
+    if(!username){
+        responseClient(res,400,2,'username is needed');
+        return;
+    }
+    if(!password){
+        responseClient(res,400,2,'password is needed');
+        return;
+    }
+    User.findOne({username})
+      .then(data=>{
+        if(data){
+            responseClient(res,200,1,'this username is occupied');
+            return;
+        }
+        let user = new User({
+            username,
+            password: md5(password + MD5_SUFFIX),
+            type: 'user'
+        });
+        user.save()
+          .then(function(){
+              User.findOne({username})
+                .then(userInfo=>{
+                    let data={};
+                    data.username = userInfo.username;
+                    data.userType = userInfo.type;
+                    data.userId = userInfo._id;
+                    responseClient(res,200,0,'register successful',data);
+                    return;
+                });
+          });
+    })
+});
 router.get('/userInfo',function(req,res){
     if(req.session.userInfo){
-        console.log("session succ");
         responseClient(res,200,0,'',req.session.userInfo);
     }else{
-        console.log("session fail");
         responseClient(res,200,1,'please login again',req.session.userInfo);
+    }
+});
+router.post('/logout',function(req,res){
+    if(req.session.userInfo){
+        req.session.userInfo=null;
+        responseClient(res,200,1,'logouted');
+    }else{
+        responseClient(res,200,1,'have not login yet');
     }
 });
 
