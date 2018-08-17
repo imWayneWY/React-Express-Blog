@@ -1,7 +1,8 @@
 import axios from 'axios';
 
 let config = {
-    baseURL: '/api',
+    baseURL: 'http://127.0.0.1:3020', //develop
+    //baseURL: '/api',                    //final
     transformRequest: [
         function(data) {
             let ret = '';
@@ -20,6 +21,7 @@ let config = {
         'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
     },
     timeout: 10000,
+    withCredentials: true,
     responseType: 'json'
 };
 export function post(url,data){

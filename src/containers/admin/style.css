@@ -1,0 +1,14 @@
+.admin-container{
+    display: flex;
+    position: relative;
+    flex-grow: 1;
+}
+.admin-bar{
+    height: 80px;
+    z-index: 2000 !important;
+}
+.admin-drawer{
+    position: relative;
+    top: 80px;
+    width: 240px;
+}

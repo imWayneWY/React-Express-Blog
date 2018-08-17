@@ -34,7 +34,6 @@ router.post('/login',(req,res)=>{
     })
 });
 router.post('/register',function(req,res){
-    console.log('gottcha');
     let {username, password} = req.body;
     if(!username){
         responseClient(res,400,2,'username is needed');
@@ -77,12 +76,9 @@ router.get('/userInfo',function(req,res){
     }
 });
 router.post('/logout',function(req,res){
-    if(req.session.userInfo){
-        req.session.userInfo=null;
-        responseClient(res,200,1,'logouted');
-    }else{
-        responseClient(res,200,1,'have not login yet');
-    }
+    req.session.destroy();
+//    res.redirect('/');
+    responseClient(res,200,1,'logouted');
 });
 
 module.exports = router;

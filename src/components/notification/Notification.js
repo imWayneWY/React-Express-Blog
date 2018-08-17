@@ -11,7 +11,6 @@ export default class Notification extends PureComponent{
         open: true
     }
     handleClose = (event,reason) => {
-        this.props.clearMsg();
         if (reason === 'clickaway') {
             return;
         }

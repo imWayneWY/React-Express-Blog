@@ -6,7 +6,6 @@ import httpProxy from 'http-proxy';
 import config from '../config/config';
 import compression from 'compression';
 
-
 const app = new Express();
 const port = config.port;
 

@@ -31,12 +31,16 @@ export default class Logined extends PureComponent{
                         </Typography>
                     </CardContent>
                     <CardActions>
-                    <Button size="small" color="primary" onClick={this.handleLogout.bind(this)}>
+                        <Button size="small" color="primary" onClick={this.handleLogout.bind(this)}>
                             Logout
                         </Button>                        
-                    <Button size="small" color="Secondary">
-                            Manage 
-                        </Button>
+                        {   
+                            this.props.userInfo.userType==="admin"
+                            ?<Button size="small" color="secondary" onClick={() => {history.push("/admin")}}>
+                                Manage 
+                            </Button>
+                            :null
+                        }
                     </CardActions>
                 </Card>
             </div>
