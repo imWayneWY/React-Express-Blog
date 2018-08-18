@@ -28,7 +28,7 @@ class Front extends PureComponent {
     }else{
       this.setState({logined: false});
     }
-}
+  }
   render() {
     const {url} = this.props.match;
     return (

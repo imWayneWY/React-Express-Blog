@@ -1,12 +1,32 @@
 import React, { PureComponent } from 'react';
 import Snackbar from '@material-ui/core/Snackbar';
+import SnackbarContent from '@material-ui/core/SnackbarContent';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import ErrorIcon from '@material-ui/icons/Error';
-import './style.css';
+import green from '@material-ui/core/colors/green';
+import { withStyles } from '@material-ui/core/styles';
 
-export default class Notification extends PureComponent{
+const styles = theme => ({
+    success: {
+        backgroundColor: green[600],
+    },
+    error: {
+        backgroundColor: theme.palette.error.dark,
+    },
+    icon: {
+        fontSize: 20,
+        opacity: 0.9,
+        marginRight: theme.spacing.unit,
+    },
+    message: {
+        display: 'flex',
+        alignItems: 'center',
+    }
+  });
+
+ class Notification extends PureComponent{
     state = {
         open: true
     }
@@ -17,35 +37,40 @@ export default class Notification extends PureComponent{
         this.setState({ open: false });
     };
     render(){
+        const { type,classes } = this.props;
         return(
             <Snackbar
-            aria-describedby="client-snackbar"
-            anchorOrigin={{
-              vertical: 'top',
-              horizontal: 'right',
-            }}
-            open={this.state.open}
-            autoHideDuration={5000}
-            onClose={this.handleClose}
-            message={<span id="message-id" className="message">
-                {this.props.type==="success"
-                ?<CheckCircleIcon className="icon" color="primary"/>
-                :<ErrorIcon className="icon" color="error"/>}
-                {this.props.content}
-            </span>}
-            action={[
-              <IconButton
-                key="close"
-                aria-label="Close"
-                color="inherit"
-                onClick={this.handleClose}
-              >
-                <CloseIcon className="icon"/>
-              </IconButton>,
-            ]}
-          />
+                anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+                }}
+                open={this.state.open}
+                autoHideDuration={6000}
+                onClose={this.handleClose}>
+
+                <SnackbarContent
+                    className={type==="success"?classes.success:classes.error}
+                    message={<span id="message-id" className={classes.message}>
+                        {type==="success"
+                        ?<CheckCircleIcon className={classes.icon}/>
+                        :<ErrorIcon className={classes.icon}/>}
+                        {this.props.content}
+                    </span>}
+                    action={[
+                        <IconButton
+                        key="close"
+                        aria-label="Close"
+                        color="inherit"
+                        onClick={this.handleClose}
+                        >
+                            <CloseIcon className="icon"/>
+                        </IconButton>,
+                    ]}       
+                />
+
+            </Snackbar>
         );
     }
 }
 
- 
+export default withStyles(styles)(Notification) 

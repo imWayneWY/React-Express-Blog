@@ -5,9 +5,19 @@ import SwipeableViews from 'react-swipeable-views';
 import AppBar from '@material-ui/core/AppBar';
 import Typography from '@material-ui/core/Typography';
 import LoginForm from './LoginForm';
-import './style.css';
 import RegisterForm from './RegisterForm';
+import {withStyles} from '@material-ui/core/styles';
+import './style.css';
 
+const styles = theme => ({
+  root: {
+    marginTop: 100,
+    backgroundColor: theme.palette.background.paper,
+    display: 'flex',
+    flexDirection: 'column',
+    width: 400,
+  },
+});
 
 function TabContainer({ children, dir }) {
   return (
@@ -18,7 +28,7 @@ function TabContainer({ children, dir }) {
 }
 
 
-export default class Login extends PureComponent {
+class Login extends PureComponent {
   state = {
     value: 0,
   };
@@ -32,9 +42,9 @@ export default class Login extends PureComponent {
   };
 
   render() {
-
+    const {classes} = this.props;
     return (
-      <div className="form-container">
+      <div className={classes.root}>
         <AppBar position="static" color="default">
           <Tabs
             value={this.state.value}
@@ -63,6 +73,8 @@ export default class Login extends PureComponent {
     );
   }
 }
+
+export default withStyles(styles)(Login);
 
 
 

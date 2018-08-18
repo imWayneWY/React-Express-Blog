@@ -22,6 +22,8 @@ router.post('/login',(req,res)=>{
             let data = {};
             data.username = userInfo.username;
             data.userType = userInfo.type;
+            data.userId = userInfo._id;
+            data.userState = userInfo.state;
             //set session
             req.session.userInfo = data;
 
@@ -52,7 +54,8 @@ router.post('/register',function(req,res){
         let user = new User({
             username,
             password: md5(password + MD5_SUFFIX),
-            type: 'user'
+            type: 'user',
+            state: 'actived'
         });
         user.save()
           .then(function(){
@@ -61,7 +64,7 @@ router.post('/register',function(req,res){
                     let data={};
                     data.username = userInfo.username;
                     data.userType = userInfo.type;
-                    data.userId = userInfo._id;
+                    data.userState = userInfo.state;
                     responseClient(res,200,0,'register successful',data);
                     return;
                 });

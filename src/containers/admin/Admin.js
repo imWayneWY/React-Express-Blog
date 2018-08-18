@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux';
-import { Switch, Route, Redirect } from 'react-router-dom'
+import { Switch, Route, Link} from 'react-router-dom'
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -9,17 +9,46 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Drawer from '@material-ui/core/Drawer';
 import {bindActionCreators} from 'redux';
 import { actions } from '../../reducers';
-import './style.css';
+import { withStyles } from '@material-ui/core/styles';
+import AdminManageUser from './adminManageUser/AdminManageUser';
+import AdminIndex from './adminIndex/AdminIndex';
+
+const styles = theme => ({
+    root: {
+        flexGrow: 1,
+        height: 430,
+        zIndex: 1,
+        overflow: 'hidden',
+        position: 'relative',
+        display: 'flex',
+      },
+      appBar: {
+        zIndex: theme.zIndex.drawer + 1,
+        height: 80,
+      },
+      drawerPaper: {
+        position: 'relative',
+        top: 80,
+        width: 240,
+      },
+      toolbar: theme.mixins.toolbar,
+      main: {
+          marginTop: 50,
+          marginLeft: 20,
+      }
+    })
+
 
 class Admin extends PureComponent {
     render() {
-        console.log(this.props.userInfo);
+        const {classes} = this.props;
+        const {url} = this.props.match;
         return (
             <div>
             {
                 this.props.userInfo.userType==='admin'
-                ?<div className="admin-container">
-                    <AppBar position="absolute" className="admin-bar">
+                ?<div className={classes.root}>
+                    <AppBar position="absolute" className={classes.appBar}>
                         <Toolbar>
                             <h2>
                                 Management Page
@@ -28,21 +57,34 @@ class Admin extends PureComponent {
                     </AppBar>
                      <Drawer
                       variant="permanent"
-                    //   className="admin-drawer"
+                      classes={{
+                        paper: classes.drawerPaper,
+                      }}
                     >
-                        <div className="admin-drawer" >
+                        <div className={classes.toolbar} >
                             <List>
-                                <ListItem button>
+                                <ListItem 
+                                  button 
+                                  component={Link}
+                                  to="/">
                                     <ListItemText primary="Return to Home Page" />
                                 </ListItem>
-                                <ListItem button>
-                                    <ListItemText primary="Manager Users" />
+                                <ListItem 
+                                  button
+                                  component={Link}
+                                  to={`${url}/manageUser`}
+                                >
+                                    <ListItemText primary="Manage Users"/>
                                 </ListItem>
                             </List>
                         </div>
                     </Drawer>
-                    <main>
-                    <p>{'You think water moves fast? You should see ice.'}</p>
+                    <main className = {classes.main}>
+                        <div className = {classes.toolbar} />
+                          <Switch>
+                            <Route exact path={url} component={AdminIndex}/>
+                            <Route path={`${url}/manageUser`} component={AdminManageUser}/>
+                          </Switch>
                     </main>
               </div>
               :<div><p>You are not a administor, sorry.</p></div>
@@ -64,4 +106,4 @@ function mapDispatchToProps(dispatch){
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(Admin)
+)(withStyles(styles)(Admin));

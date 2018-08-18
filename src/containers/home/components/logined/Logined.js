@@ -5,13 +5,12 @@ import CardMedia from '@material-ui/core/CardMedia';
 import CardActions from '@material-ui/core/CardActions';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import history from '../../../../history';
+import {withRouter} from 'react-router-dom';
 import './style.css';
 
-export default class Logined extends PureComponent{
+class Logined extends PureComponent{
     handleLogout = (e) => {
         this.props.logout();
-        history.push('/');
     }
     render(){
         return(
@@ -36,7 +35,7 @@ export default class Logined extends PureComponent{
                         </Button>                        
                         {   
                             this.props.userInfo.userType==="admin"
-                            ?<Button size="small" color="secondary" onClick={() => {history.push("/admin")}}>
+                            ?<Button size="small" color="secondary" onClick={() => {this.props.history.push('/admin')}}>
                                 Manage 
                             </Button>
                             :null
@@ -47,3 +46,4 @@ export default class Logined extends PureComponent{
         );
     };
 }
+export default withRouter(Logined);
