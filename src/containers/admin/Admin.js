@@ -16,7 +16,6 @@ import AdminIndex from './adminIndex/AdminIndex';
 const styles = theme => ({
     root: {
         flexGrow: 1,
-        height: 430,
         zIndex: 1,
         overflow: 'hidden',
         position: 'relative',

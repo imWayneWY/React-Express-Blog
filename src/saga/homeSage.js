@@ -63,12 +63,10 @@ export function* registerFlow(){
 export function* user_auth(){
     while(true){
         yield take(actionTypes.USER_AUTH);
-        console.log("user_auth");
         try{
             yield put({type:actionTypes.FETCH_START});
             let response = yield call(get, '/user/userInfo');
             let info = response.data;
-            console.log(info);
             if(info && info.code === 0){
                 yield put({type:actionTypes.RESPONSE_USER_INFO,data:info.data});
             }
