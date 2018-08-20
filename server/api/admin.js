@@ -30,5 +30,28 @@ router.get('/getUsers',(req,res)=>{
             responseClient(res)
         });
 });
+router.post('/updateUser',(req,res)=>{
+    let {id,type,state} = req.body;
+    if(!id){
+        responseClient(res,400,2,'id is needed');
+        return;
+    }
+    if(!state){
+        responseClient(res,400,2,'state is needed');
+        return;
+    }
+    if(!type){
+        responseClient(res,400,2,'type is needed');
+        return;
+    }
+    User.update({_id:id},{state,type})
+        .then(result=>{
+            console.log(result);
+            responseClient(res,200,0,'update success!',result)
+        }).cancel(err=>{
+            console.log(err);
+            responseClient(res);
+        });
 
+});
 module.exports = router;

@@ -7,8 +7,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Drawer from '@material-ui/core/Drawer';
-import {bindActionCreators} from 'redux';
-import { actions } from '../../reducers';
+// import {bindActionCreators} from 'redux';
+// import { actions } from '../../reducers';
 import { withStyles } from '@material-ui/core/styles';
 import AdminManageUser from './adminManageUser/AdminManageUser';
 import AdminIndex from './adminIndex/AdminIndex';
@@ -86,7 +86,7 @@ class Admin extends PureComponent {
                           </Switch>
                     </main>
               </div>
-              :<div><p>You are not a administor, sorry.</p></div>
+              :<div><p>You are not a administor. Or you have not login yet.</p></div>
             }
             </div>
         )

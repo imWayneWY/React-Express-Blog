@@ -26,13 +26,24 @@ class Logined extends PureComponent{
                             {this.props.userInfo.username} 
                         </Typography>
                         <Typography component="p">
-                            Welcome to this blog. 
+                            {
+                                this.props.userInfo.userState==="actived"
+                                ?"Welcome to this blog."
+                                :"Your account has been disabled. Please contact im.wayne.wy@gmail.com to get more infomation."
+                            }
                         </Typography>
                     </CardContent>
                     <CardActions>
                         <Button size="small" color="primary" onClick={this.handleLogout.bind(this)}>
                             Logout
                         </Button>                        
+                        {   
+                            this.props.userInfo.userState==="actived"
+                            ?<Button size="small" color="primary" onClick={() => {this.props.history.push('/edit')}}>
+                                PublishBlog 
+                            </Button>
+                            :null
+                        }                        
                         {   
                             this.props.userInfo.userType==="admin"
                             ?<Button size="small" color="secondary" onClick={() => {this.props.history.push('/admin')}}>

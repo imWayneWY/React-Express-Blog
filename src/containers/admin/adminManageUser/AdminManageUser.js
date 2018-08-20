@@ -16,7 +16,10 @@ import {withStyles} from '@material-ui/core/styles';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {actions} from '../../../reducers/adminManageUser';
-const {getUsers} = actions;
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+import InputLabel from '@material-ui/core/InputLabel';
+const {getUsers,updateUser} = actions;
 
 const styles = theme => ({
     root: {
@@ -35,7 +38,7 @@ const styles = theme => ({
 class AdminManageUser extends PureComponent{
     state = {
         open: false,
-        user: {}
+        user: {},
     };
     handleClick = (event,user) => {
         this.setState({
@@ -46,14 +49,28 @@ class AdminManageUser extends PureComponent{
     handleClose = () => {
         this.setState({
             open: false,
-        })
+        });
+    }
+    handleUpdate = () => {
+        this.props.updateUser(this.state.user);
+        this.setState({
+            open: false,
+        });
+        this.props.getUsers(this.props.pageNum,this.props.rowsPerPage);
     }
     handleChangePage = (event, page) => {
         this.props.getUsers(page+1,this.props.rowsPerPage);
     };
 
     handleChangeRowsPerPage = event => {
-        this.props.getUsers(this.props.page,event.target.value);
+        this.props.getUsers(this.props.pageNum, event.target.value);
+    };
+    handleChange = event => {
+        let user = {...this.state.user};
+        user[event.target.name] = event.target.value;
+        this.setState({
+            user: user
+        });
     };
     componentDidMount(){
         if(this.props.list.length===0){
@@ -62,7 +79,6 @@ class AdminManageUser extends PureComponent{
     }
     render(){
         const {classes} = this.props;
-        console.log(this.state.openDialog);
         return(
             <div>
             <Paper className={classes.root}>
@@ -120,12 +136,31 @@ class AdminManageUser extends PureComponent{
                 
                 <DialogContent>
                     <h2>USERNAME: {this.state.user.username}</h2>
-                    <h4>TYPE: {this.state.user.type}</h4>
-                    <h4>STATE: {this.state.user.state}</h4>
+                    <InputLabel>TYPE: </InputLabel>
+                        <Select
+                            value={this.state.user.type}
+                            onChange={this.handleChange}
+                            name="type">
+                            <MenuItem value="admin">admin</MenuItem>
+                            <MenuItem value="user">user</MenuItem>
+                        </Select>
+                    <br/>
+                    <InputLabel>STATE: </InputLabel>
+                        <Select
+                            value={this.state.user.state}
+                            onChange={this.handleChange}
+                            name="state">
+                            <MenuItem value="actived">actived</MenuItem>
+                            <MenuItem value="disabled">disabled</MenuItem>
+                        </Select>
+                    <br/>
                     <h4>PASSWORD: {this.state.user.password}</h4>
                 </DialogContent>
                 
                 <DialogActions>
+                     <Button onClick={this.handleUpdate} color="secondary">
+                        Update
+                    </Button>                   
                     <Button onClick={this.handleClose} color="primary">
                         Close
                     </Button>
@@ -162,6 +197,7 @@ function mapStateToProps(state){
 function mapDispatchToProps(dispatch){
     return {
         getUsers: bindActionCreators(getUsers,dispatch),
+        updateUser: bindActionCreators(updateUser,dispatch),
     }
 }
 export default withStyles(styles)(

@@ -2,12 +2,15 @@ const initialState = {
     list: [],
     pageNum: 1,
     total: 0,
-    rowsPerPage: 10
+    rowsPerPage: 10,
+    user: {},
+
 };
 
 export const actionTypes = {
     GET_USERS: "GET_USERS",
-    RESOLOVE_USERS_LIST: "RESOLOVE_USERS_LIST"
+    RESOLOVE_USERS_LIST: "RESOLOVE_USERS_LIST",
+    UPDATE_USER: "UPDATE_USER"
 };
 
 export const actions = {
@@ -16,6 +19,12 @@ export const actions = {
             type: actionTypes.GET_USERS,
             pageNum: pageNum,
             rowsPerPage: rowsPerPage
+        }
+    },
+    updateUser: function(user){
+        return{
+            type: actionTypes.UPDATE_USER,
+            user: user
         }
     }
 };

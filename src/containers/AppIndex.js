@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import NotFound from '../components/notFound/NotFound';
 import Admin from './admin/Admin';
 import Front from './front/Front';
+import Edit from './edit/Edit';
 import Loading from './components/loading/Loading';
 import Notification from '../components/notification/Notification';
 import {bindActionCreators} from 'redux';
@@ -21,6 +22,7 @@ class AppIndex extends PureComponent {
                     <Switch>
                         <Route path = '/404' component={NotFound}/>
                         <Route path = '/admin' component={Admin}/>
+                        <Route path = '/edit' component={Edit}/>
                         <Route component={Front}/>
                     </Switch>
                     {isFetching && <Loading/>}
