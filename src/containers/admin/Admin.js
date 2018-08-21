@@ -5,13 +5,13 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
 import Drawer from '@material-ui/core/Drawer';
 // import {bindActionCreators} from 'redux';
 // import { actions } from '../../reducers';
 import { withStyles } from '@material-ui/core/styles';
 import AdminManageUser from './adminManageUser/AdminManageUser';
 import AdminIndex from './adminIndex/AdminIndex';
+import AdminManageTag from './adminManageTag/AdminManageTag.js';
 
 const styles = theme => ({
     root: {
@@ -27,6 +27,7 @@ const styles = theme => ({
       },
       drawerPaper: {
         position: 'relative',
+        backgroundColor: '#eeeeee',
         top: 80,
         width: 240,
       },
@@ -47,12 +48,8 @@ class Admin extends PureComponent {
             {
                 this.props.userInfo.userType==='admin'
                 ?<div className={classes.root}>
-                    <AppBar position="absolute" className={classes.appBar}>
-                        <Toolbar>
-                            <h2>
-                                Management Page
-                            </h2>
-                        </Toolbar>
+                    <AppBar position="absolute" color="secondary" className={classes.appBar}>
+                        <h2>Management Page</h2>
                     </AppBar>
                      <Drawer
                       variant="permanent"
@@ -75,6 +72,13 @@ class Admin extends PureComponent {
                                 >
                                     <ListItemText primary="Manage Users"/>
                                 </ListItem>
+                                <ListItem 
+                                  button
+                                  component={Link}
+                                  to={`${url}/manageTag`}
+                                >
+                                    <ListItemText primary="Manage Tags"/>
+                                </ListItem>
                             </List>
                         </div>
                     </Drawer>
@@ -83,6 +87,7 @@ class Admin extends PureComponent {
                           <Switch>
                             <Route exact path={url} component={AdminIndex}/>
                             <Route path={`${url}/manageUser`} component={AdminManageUser}/>
+                            <Route path={`${url}/manageTag`} component={AdminManageTag}/>
                           </Switch>
                     </main>
               </div>
