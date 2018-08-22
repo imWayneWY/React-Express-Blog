@@ -5,12 +5,18 @@ import User from '../../models/user';
 const router = Express.Router();
 router.use( (req,res,next) =>{
     if(req.session.userInfo){
-        next()
+        if(req.session.userInfo.userType==='admin')
+        {
+            next();
+        }else{
+            res.send(responseClient(res,200,1,'You are not an administor.'));
+        }
     }else{
         res.send(responseClient(res,200,1,'user info is over due, please login again'));
     }
 });
 
+router.use('/tags',require('./tag'));
 router.get('/getUsers',(req,res)=>{
     let skip = (req.query.pageNum-1)<0?1:(req.query.pageNum-1)*req.query.rowsPerPage;
     let limit = Number.parseInt(req.query.rowsPerPage,10);
