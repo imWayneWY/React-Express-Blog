@@ -9,7 +9,9 @@ import './style.css';
 import Login from '../home/components/login/Login';
 import { bindActionCreators } from 'redux';
 import {actions as DispatchActions} from '../../reducers';
+import {actions as tagActions} from '../../reducers/adminManageTag';
 import Logined from '../home/components/logined/Logined';
+const {getTags} = tagActions;
 
 class Front extends PureComponent {
   constructor(props){
@@ -29,6 +31,9 @@ class Front extends PureComponent {
       this.setState({logined: false});
     }
   }
+  componentDidMount(){
+    this.props.getTags();
+  }
   render() {
     const {url} = this.props.match;
     return (
@@ -37,7 +42,7 @@ class Front extends PureComponent {
           <Banner />
           <Menu 
             getArticleList={(value)=>{}} 
-            categories={['Home','React','Express']}/>
+            categories={this.props.tags}/>
         </div>
         <div className="front-container">
           <div className="content-container">
@@ -64,7 +69,8 @@ class Front extends PureComponent {
 function mapStateToProps(state) {
   return{
     // categories: state.admin.tags,
-    userInfo: state.globalState.userInfo
+    userInfo: state.globalState.userInfo,
+    tags: state.admin.tags,
   }
 }
 
@@ -72,7 +78,8 @@ function mapDispatchToProps(dispatch) {
   return{
     login: bindActionCreators(DispatchActions.get_login, dispatch),
     register: bindActionCreators(DispatchActions.register,dispatch),
-    logout: bindActionCreators(DispatchActions.logout, dispatch)
+    logout: bindActionCreators(DispatchActions.logout, dispatch),
+    getTags: bindActionCreators(getTags,dispatch),
   }
 }
 

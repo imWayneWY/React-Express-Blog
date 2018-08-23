@@ -30,6 +30,9 @@ const styles = theme => ({
     state = {
         open: true
     }
+    componentWillReceiveProps(nextProps){
+        this.setState({open: true}); //every notification will be shown
+    }
     handleClose = (event,reason) => {
         if (reason === 'clickaway') {
             return;

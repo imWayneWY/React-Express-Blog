@@ -4,21 +4,17 @@ import { Switch, Route, Link} from 'react-router-dom'
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import AppBar from '@material-ui/core/AppBar';
 import Drawer from '@material-ui/core/Drawer';
-// import {bindActionCreators} from 'redux';
-// import { actions } from '../../reducers';
 import { withStyles } from '@material-ui/core/styles';
 import AdminManageUser from './adminManageUser/AdminManageUser';
 import AdminIndex from './adminIndex/AdminIndex';
 import AdminManageTag from './adminManageTag/AdminManageTag.js';
+import Bar from '../../components/bar/Bar';
 
 const styles = theme => ({
     root: {
-        flexGrow: 1,
         zIndex: 1,
         overflow: 'hidden',
-        position: 'relative',
         display: 'flex',
       },
       appBar: {
@@ -26,13 +22,14 @@ const styles = theme => ({
         height: 80,
       },
       drawerPaper: {
-        position: 'relative',
         backgroundColor: '#eeeeee',
         top: 80,
         width: 240,
       },
       toolbar: theme.mixins.toolbar,
       main: {
+          position: 'absolute',
+          left: 240,
           marginTop: 50,
           marginLeft: 20,
       }
@@ -48,9 +45,10 @@ class Admin extends PureComponent {
             {
                 this.props.userInfo.userType==='admin'
                 ?<div className={classes.root}>
-                    <AppBar position="absolute" color="secondary" className={classes.appBar}>
+                    {/* <AppBar position="absolute" color="secondary" className={classes.appBar}>
                         <h2>Management Page</h2>
-                    </AppBar>
+                    </AppBar> */}
+                    <Bar className={classes.appBar} title="Management Page"/>
                      <Drawer
                       variant="permanent"
                       classes={{
@@ -61,12 +59,6 @@ class Admin extends PureComponent {
                             <List>
                                 <ListItem 
                                   button 
-                                  component={Link}
-                                  to="/">
-                                    <ListItemText primary="Return to Home Page" />
-                                </ListItem>
-                                <ListItem 
-                                  button
                                   component={Link}
                                   to={`${url}/manageUser`}
                                 >

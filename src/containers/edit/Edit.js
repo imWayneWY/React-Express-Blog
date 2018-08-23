@@ -9,7 +9,10 @@ import Input from '@material-ui/core/Input';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import Chip from '@material-ui/core/Chip';
-import AppBar from '@material-ui/core/AppBar';
+import {actions as tagActions} from '../../reducers/adminManageTag';
+import {bindActionCreators} from 'redux';
+import Bar from '../../components/bar/Bar';
+const {getTags} = tagActions;
 
 const styles = () => ({
     root: {
@@ -53,7 +56,6 @@ const styles = () => ({
     }
 });
 
-const names = ['react','express','javascript'];
 class Edit extends PureComponent{
     state = {
         tags: [],
@@ -61,13 +63,14 @@ class Edit extends PureComponent{
     handleChangeTags = (event) => {
         this.setState({ tags: event.target.value });
     }
+    componentDidMount(){
+        this.props.getTags();
+    };
     render(){
         const {classes} = this.props;
         return(
             <div>
-                <AppBar position="static" color="primary" display="flex">
-                    <h2>Edit Blog</h2>
-                </AppBar>
+                <Bar title="Edit Blog"/>
                 <div style={{backgroundColor: '#eeeeee',paddingTop:'30px',paddingBottom:'30px'}}>
                     {
                         this.props.userInfo.userId
@@ -107,7 +110,7 @@ class Edit extends PureComponent{
                                 </div>
                                 )}
                             >
-                                {names.map(name => (
+                                {this.props.tags.map(name => (
                                 <MenuItem
                                     key={name}
                                     value={name}
@@ -130,11 +133,13 @@ class Edit extends PureComponent{
 }
 function mapStateToProps(state) {
     return{
-        userInfo: state.globalState.userInfo
+        userInfo: state.globalState.userInfo,
+        tags: state.admin.tags,
     };
 }
 function mapDispatchToProps(dispatch){
     return{
+        getTags: bindActionCreators(getTags,dispatch),
     };
 }
 export default connect(

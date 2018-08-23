@@ -21,6 +21,7 @@ export default class Menu extends PureComponent {
           indicatorColor = "primary"
           textColor="primary"
           centered>
+            <Tab key='key-home' label='home'/>
             {
                 this.props.categories.map((item) => (
                     <Tab key={'key-'+item} label={item}/>

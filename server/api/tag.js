@@ -29,7 +29,7 @@ router.get('/delTag', function(req, res){
     let {name} = req.query;
     Tag.remove({name})
         .then(result=>{
-            if(result.result.n === 1){
+            if(result.n === 1){
                 responseClient(res,200,0,'Tag delete success.');
             }else{
                 responseClient(res,200,1,'Tag does not exist.');

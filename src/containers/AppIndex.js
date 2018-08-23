@@ -37,7 +37,7 @@ class AppIndex extends PureComponent {
             </Router>
         );
     };
-    componentWillMount(){
+    componentDidMount(){
         this.props.user_auth();
     }
 }
