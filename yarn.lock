@@ -2145,6 +2145,10 @@ date-now@^0.1.4:
   version "0.1.4"
   resolved "http://registry.npm.taobao.org/date-now/download/date-now-0.1.4.tgz#eaf439fd4d4848ad74e5cc7dbef200672b9e345b"
 
+dateformat@^3.0.3:
+  version "3.0.3"
+  resolved "http://registry.npm.taobao.org/dateformat/download/dateformat-3.0.3.tgz#a6e37499a4d9a9cf85ef5872044d62901c9889ae"
+
 debounce@^1.1.0:
   version "1.1.0"
   resolved "http://registry.npm.taobao.org/debounce/download/debounce-1.1.0.tgz#6a1a4ee2a9dc4b7c24bb012558dbcdb05b37f408"

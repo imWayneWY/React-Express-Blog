@@ -10,9 +10,12 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import Chip from '@material-ui/core/Chip';
 import {actions as tagActions} from '../../reducers/adminManageTag';
+import {actions} from '../../reducers/';
 import {bindActionCreators} from 'redux';
 import Bar from '../../components/bar/Bar';
+import dateFormat from 'dateformat';
 const {getTags} = tagActions;
+const {save_article} = actions;
 
 const styles = () => ({
     root: {
@@ -58,11 +61,44 @@ const styles = () => ({
 
 class Edit extends PureComponent{
     state = {
+        newArticle: this.props.location.state.newArticle,
+        title: this.props.location.state.title || '',
+        content: this.props.location.state.content || '',
         tags: [],
+        value: ''
+    }
+    handleChangeTitle = (event) => {
+        this.setState({ title: event.target.value });
+    };
+    handleChangeContent = (event) => {
+        this.setState({ content: event.target.value });
     }
     handleChangeTags = (event) => {
         this.setState({ tags: event.target.value });
-    }
+    };
+    handleSaveArticle = (event,state) => {
+    
+        if(this.state.title===''){
+            this.setState({value: 'please enter a valid title'});
+            return;
+        };
+        if(this.state.content===''){
+            this.setState({value: 'please write valid content'});
+            return;
+        };
+        if(this.state.tags===[]){
+            this.setState({value: 'you must choose at least one tag'});
+            return;
+        }
+        let articleInfo = {
+            title: this.state.title,
+            content: this.state.content,
+            tags: this.state.tags,
+            time: dateFormat(new Date(), 'yyyy-mm-dd HH:MM:ss'),
+            state,
+        };
+        this.props.saveArticle(this.state.newArticle,articleInfo);
+    };
     componentDidMount(){
         this.props.getTags();
     };
@@ -82,6 +118,7 @@ class Edit extends PureComponent{
                                 InputLabelProps={{
                                     className: classes.label
                                 }}
+                                onChange={this.handleChangeTitle}
                             />
                             <p className={classes.p}>Content:</p>
                             <TextField
@@ -94,6 +131,7 @@ class Edit extends PureComponent{
                                     root: classes.contentRoot,
                                     input: classes.content,
                                 }}
+                                onChange={this.handleChangeContent}
                             />
                             <p className={classes.p}>Tags:</p>
                             <Select
@@ -120,8 +158,16 @@ class Edit extends PureComponent{
                                 ))}
                             </Select>
                             <div>
-                                <Button variant="contained" className={classes.button}>POST</Button>
-                                <Button variant="contained" className={classes.button}>SAVE</Button>
+                                <Button 
+                                    variant="contained" 
+                                    className={classes.button}
+                                    onClick={event=> this.handleSaveArticle(event,"posted")}>POST</Button>
+                                <Button variant="contained" 
+                                    className={classes.button}
+                                    onClick={event=> this.handleSaveArticle(event,"saved")}>SAVE</Button>
+                            </div>
+                            <div>
+                                <p className={classes.p} style={{color: '#ff0000'}}>{this.state.value}</p>
                             </div>
                         </Paper>
                         :<Redirect to='/'/>
@@ -140,6 +186,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch){
     return{
         getTags: bindActionCreators(getTags,dispatch),
+        saveArticle: bindActionCreators(save_article,dispatch),
     };
 }
 export default connect(

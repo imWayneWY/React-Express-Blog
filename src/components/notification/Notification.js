@@ -38,6 +38,7 @@ const styles = theme => ({
             return;
         }
         this.setState({ open: false });
+        this.props.clearMsg();
     };
     render(){
         const { type,classes } = this.props;

@@ -28,8 +28,8 @@ class AppIndex extends PureComponent {
                     {isFetching && <Loading/>}
                     {this.props.notification && this.props.notification.content
                         ? (this.props.notification.type === 1
-                            ? <Notification content={this.props.notification.content} type="success"/>
-                            : <Notification content={this.props.notification.content} type="error"/>
+                            ? <Notification content={this.props.notification.content} type="success" clearMsg={this.props.clear_msg}/>
+                            : <Notification content={this.props.notification.content} type="error" clearMsg={this.props.clear_msg}/>
                         )
                         : null
                     }

@@ -18,7 +18,8 @@ export const actionTypes = {
     USER_REGISTER: "USER_REGISTER",
     USER_LOGOUT: "USER_LOGOUT",
     RESPONSE_USER_INFO: "RESPONSE_USER_INFO",
-    USER_AUTH: "USER_AUTH"
+    USER_AUTH: "USER_AUTH",
+    SAVE_ARTICLE: "SAVE_ARTICLE",
 };
 
 export const actions = {
@@ -51,6 +52,13 @@ export const actions = {
     user_auth: function(){
         return{
             type: actionTypes.USER_AUTH
+        }
+    },
+    save_article: function(newArticle,articleInfo){
+        return{
+            type: actionTypes.SAVE_ARTICLE,
+            newArticle,
+            articleInfo
         }
     }
 };

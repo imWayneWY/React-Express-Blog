@@ -39,7 +39,7 @@ class Logined extends PureComponent{
                         </Button>                        
                         {   
                             this.props.userInfo.userState==="actived"
-                            ?<Button size="small" color="primary" onClick={() => {this.props.history.push('/edit')}}>
+                            ?<Button size="small" color="primary" onClick={() => {this.props.history.push({pathname:'/edit',state:{newArticle:true}})}}>
                                 PublishBlog 
                             </Button>
                             :null
