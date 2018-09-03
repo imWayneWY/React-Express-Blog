@@ -10,8 +10,10 @@ import Login from '../home/components/login/Login';
 import { bindActionCreators } from 'redux';
 import {actions as DispatchActions} from '../../reducers';
 import {actions as tagActions} from '../../reducers/adminManageTag';
+import {actions as frontActions} from '../../reducers/frontReducer';
 import Logined from '../home/components/logined/Logined';
 const {getTags} = tagActions;
+const {getArticleList} = frontActions;
 
 class Front extends PureComponent {
   constructor(props){
@@ -19,21 +21,24 @@ class Front extends PureComponent {
     this.props.userInfo.username
     ? this.state={logined: true}
     : this.state={logined: false}
-  }
+  };
+  handleGetArticleList = (tag,pageNum) => {
+    this.props.getArticleList(tag,pageNum);
+  };
   handleLogout = () => {
     this.props.logout();
     this.setState({logined: false});
-  }
+  };
   componentWillReceiveProps(nextProps) {
     if(nextProps.userInfo.username){
       this.setState({logined: true});
     }else{
       this.setState({logined: false});
     }
-  }
+  };
   componentDidMount(){
     this.props.getTags();
-  }
+  };
   render() {
     const {url} = this.props.match;
     return (
@@ -41,7 +46,7 @@ class Front extends PureComponent {
         <div>
           <Banner />
           <Menu 
-            getArticleList={(value)=>{}} 
+            getArticleList={this.handleGetArticleList.bind(this)}
             categories={this.props.tags}/>
         </div>
         <div className="front-container">
@@ -49,6 +54,7 @@ class Front extends PureComponent {
             <div className="content">
               <Switch>
                 <Route exact path={url} component={Home}/>
+                <Route path={`/:tag`} component={Home}/>
                 <Route component={NotFound}/>
               </Switch>
             </div>
@@ -80,6 +86,7 @@ function mapDispatchToProps(dispatch) {
     register: bindActionCreators(DispatchActions.register,dispatch),
     logout: bindActionCreators(DispatchActions.logout, dispatch),
     getTags: bindActionCreators(getTags,dispatch),
+    getArticleList: bindActionCreators(getArticleList,dispatch),
   }
 }
 

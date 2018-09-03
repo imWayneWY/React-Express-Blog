@@ -6,7 +6,7 @@ export function* saveArticle(newArticle,articleInfo){
     yield put({type:actionTypes.FETCH_START});
     try{
         if(newArticle){
-            return yield call(post, '/addArticle', articleInfo);
+            return yield call(post, '/article/addArticle', articleInfo);
         }else{
 
         }

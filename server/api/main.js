@@ -4,7 +4,7 @@ import {responseClient} from '../util';
 
 const router = Express.Router();
 router.use('/user', require('./user'));
-router.use('/addArticle', require('./article'));
+router.use('/article', require('./article'));
 
 router.get('/getTags',function(req,res){
     Tag.find(null, 'name').then(data => {
