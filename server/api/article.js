@@ -73,9 +73,28 @@ router.get('/getArticleList',function(req,res){
         }).cancel(err => {
             throw err;
         });
-    }).cancel(err => {
+    }).catch(err => {
         responseClient(res);
     })
 
+});
+router.get('/getArticleDetail',function(req,res){
+    const _id = req.query.id;
+    if(!_id){
+        responseClient(res,400,2,'id is needed');
+        return;
+    };
+    Article.findOne({_id})
+        .then(data=>{
+            data.viewCount = data.viewCount+1;
+            Article.update({_id},{viewCount: data.viewCount})
+                .then(
+                    result=>{
+                        responseClient(res,200,0,'success',data);
+                    }
+                ).cancel(err=>{throw err;});
+        }).catch(err=>{
+            responseClient(res);
+        });
 });
 module.exports = router;

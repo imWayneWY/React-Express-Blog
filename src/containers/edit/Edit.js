@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
-import { Redirect } from 'react-router-dom';
+import { Redirect,withRouter } from 'react-router-dom';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
@@ -98,6 +98,9 @@ class Edit extends PureComponent{
             state,
         };
         this.props.saveArticle(this.state.newArticle,articleInfo);
+        if(state==='posted'){
+           this.props.history.push('/');
+        }
     };
     componentDidMount(){
         this.props.getTags();
@@ -189,7 +192,7 @@ function mapDispatchToProps(dispatch){
         saveArticle: bindActionCreators(save_article,dispatch),
     };
 }
-export default connect(
+export default withRouter(connect(
     mapStateToProps,
     mapDispatchToProps
-)(withStyles(styles)(Edit));
+)(withStyles(styles)(Edit)));

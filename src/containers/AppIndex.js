@@ -4,6 +4,8 @@ import NotFound from '../components/notFound/NotFound';
 import Admin from './admin/Admin';
 import Front from './front/Front';
 import Edit from './edit/Edit';
+import Detail from './detail/Detail';
+import MyArticles from './myArticles/MyArticles';
 import Loading from './components/loading/Loading';
 import Notification from '../components/notification/Notification';
 import {bindActionCreators} from 'redux';
@@ -23,6 +25,8 @@ class AppIndex extends PureComponent {
                         <Route path = '/404' component={NotFound}/>
                         <Route path = '/admin' component={Admin}/>
                         <Route path = '/edit' component={Edit}/>
+                        <Route path = '/myArticles' component={MyArticles}/>
+                        <Route path = '/detail/:id' component={Detail}/>
                         <Route component={Front}/>
                     </Switch>
                     {isFetching && <Loading/>}

@@ -95,3 +95,22 @@ export function* logout(){
         }
     }
 }
+
+export function* get_article_detail(){
+    while(true){
+        let req = yield take(actionTypes.GET_ARTICLE_DETAIL);
+        const {id} = req;
+        try{
+            yield put({type:actionTypes.FETCH_START});
+            let response = yield call(get, `/article/getArticleDetail?id=${id}`);
+            let info = response.data;
+            if(info && info.code === 0){
+                yield put({type:actionTypes.RESPONSE_ARTICLE_DETAIL,data:info.data});
+            }
+        }catch(err){
+            console.log(err);
+        }finally{
+            yield put({type: actionTypes.FETCH_END});
+        }
+    }
+}

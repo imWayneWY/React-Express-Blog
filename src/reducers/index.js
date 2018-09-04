@@ -8,7 +8,8 @@ const initialState = {
         type: 1, //0:fail, 1: success
         content: ''
     },
-    userInfo: {}
+    userInfo: {},
+    articleDetail: {},
 };
 
 export const actionTypes = {
@@ -21,6 +22,8 @@ export const actionTypes = {
     RESPONSE_USER_INFO: "RESPONSE_USER_INFO",
     USER_AUTH: "USER_AUTH",
     SAVE_ARTICLE: "SAVE_ARTICLE",
+    GET_ARTICLE_DETAIL: "GET_ARTICLE_DETAIL",
+    RESPONSE_ARTICLE_DETAIL: "RESPONSE_ARTICLE_DETAIL",
 };
 
 export const actions = {
@@ -61,7 +64,13 @@ export const actions = {
             newArticle,
             articleInfo
         }
-    }
+    },
+    get_article_detail: function(id){
+        return{
+            type: actionTypes.GET_ARTICLE_DETAIL,
+            id,
+        }
+    },
 };
 
 export function reducer(state=initialState,action) {
@@ -86,6 +95,10 @@ export function reducer(state=initialState,action) {
         case actionTypes.RESPONSE_USER_INFO:
             return{
                 ...state, userInfo: action.data
+            }
+        case actionTypes.RESPONSE_ARTICLE_DETAIL:
+            return{
+                ...state, articleDetail: action.data
             }
         default:
             return state;
