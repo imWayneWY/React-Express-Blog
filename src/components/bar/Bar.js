@@ -32,7 +32,7 @@ class Bar extends PureComponent{
               <Typography variant="title" color="inherit" className={classes.flex}>
                 {title}
               </Typography>
-              <Button color="inherit" onClick={()=>{this.props.history.push('/')}}>Back to Home</Button>
+              <Button color="inherit" onClick={()=>{this.props.func()}}>Back</Button>
             </Toolbar>
           </AppBar>
         </div>

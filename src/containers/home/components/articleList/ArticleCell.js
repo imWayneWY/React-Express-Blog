@@ -19,8 +19,8 @@ const styles = theme => ({
 });
   
 class ArticleCell extends PureComponent{
-    handleClick = () => {
-        this.props.history.push(`/detail/${this.props.data._id}`);
+    handleClick =() => {
+        this.props.openDetail(this.props.data._id);
     };
     render(){
         const {classes} = this.props;

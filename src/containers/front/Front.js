@@ -12,15 +12,34 @@ import {actions as DispatchActions} from '../../reducers';
 import {actions as tagActions} from '../../reducers/adminManageTag';
 import {actions as frontActions} from '../../reducers/frontReducer';
 import Logined from '../home/components/logined/Logined';
+import Drawer from '@material-ui/core/Drawer';
+import Button from '@material-ui/core/Button';
+import Edit from '../edit/Edit';
+import Detail from '../detail/Detail';
+import MyArticles from '../myArticles/MyArticles';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 const {getTags} = tagActions;
-const {getArticleList} = frontActions;
-
+const {getArticleList,setDrawer} = frontActions;
+const theme = createMuiTheme({
+  overrides: {
+    MuiDrawer:{
+      paperAnchorRight:{
+        width: '70%',
+      }
+    }
+  }
+});
 class Front extends PureComponent {
   constructor(props){
     super(props);
-    this.props.userInfo.username
-    ? this.state={logined: true}
-    : this.state={logined: false}
+    let logined = false;
+    logined = this.props.userInfo.username ?  true  : false;
+    this.state = {
+      logined,
+    }
+  };
+  toggleDrawer = (side, open) => {
+    this.props.setDrawer(side,open);
   };
   handleGetArticleList = (tag,pageNum) => {
     this.props.getArticleList(tag,pageNum);
@@ -54,7 +73,7 @@ class Front extends PureComponent {
             <div className="content">
               <Switch>
                 <Route exact path={url} component={Home}/>
-                <Route path={`/:tag`} component={Home}/>
+                <Route path={`/:tag:articleId?`} component={Home}/>
                 <Route component={NotFound}/>
               </Switch>
             </div>
@@ -62,10 +81,28 @@ class Front extends PureComponent {
           <div className="login-container">
             {
               this.state.logined
-              ? <Logined userInfo = {this.props.userInfo} logout={this.handleLogout.bind(this)}/> 
-              : <Login login={this.props.login} register={this.props.register}/>
+              ? <Logined userInfo = {this.props.userInfo} logout={this.handleLogout.bind(this)}
+                        toggleDrawer={this.toggleDrawer.bind(this)}/> 
+              : <Login login={this.props.login} register={this.props.register} />
             }
           </div>
+          <MuiThemeProvider  theme={theme}>
+            <Drawer anchor="right" open={this.props.editDrawer} onClose={this.toggleDrawer.bind(('editDrawer', false))}>
+                <Edit newArticle={true} toggleDrawer={this.toggleDrawer.bind(this)}/> 
+            </Drawer>
+          </MuiThemeProvider>
+
+          <MuiThemeProvider  theme={theme}>
+            <Drawer anchor="right" open={this.props.myArticlesDrawer} onClose={this.toggleDrawer.bind(('myArticlesDrawer', false))}>
+                <MyArticles  toggleDrawer={this.toggleDrawer.bind(this)}/> 
+            </Drawer>
+          </MuiThemeProvider>
+
+          <MuiThemeProvider  theme={theme}>
+            <Drawer anchor="right" open={this.props.detailDrawer} onClose={this.toggleDrawer.bind(('detailDrawer', false))}>
+                <Detail  toggleDrawer={this.toggleDrawer.bind(this)}/> 
+            </Drawer>
+          </MuiThemeProvider>
         </div>
       </div>
     )
@@ -77,6 +114,9 @@ function mapStateToProps(state) {
     // categories: state.admin.tags,
     userInfo: state.globalState.userInfo,
     tags: state.admin.tags,
+    editDrawer: state.front.editDrawer,
+    myArticlesDrawer: state.front.myArticlesDrawer,
+    detailDrawer: state.front.detailDrawer,
   }
 }
 
@@ -87,10 +127,11 @@ function mapDispatchToProps(dispatch) {
     logout: bindActionCreators(DispatchActions.logout, dispatch),
     getTags: bindActionCreators(getTags,dispatch),
     getArticleList: bindActionCreators(getArticleList,dispatch),
+    setDrawer: bindActionCreators(setDrawer, dispatch),
   }
 }
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Front)
+)(Front);

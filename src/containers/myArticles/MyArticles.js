@@ -11,13 +11,15 @@ class MyArticles extends PureComponent {
   render() {
     return (
       <div>
+        <Bar title="My Articles" func={()=>{this.props.toggleDrawer('myArticlesDrawer',false)}}/>
         {
             this.props.userInfo.userId
             ?
             <div>
-                <Bar title="My Articles"/>
+                my articles function is comming soon...
             </div>
-            :<Redirect to = '/'/>
+
+            :<div>Your session is over due,please login again.</div>
         }
       </div>
     );

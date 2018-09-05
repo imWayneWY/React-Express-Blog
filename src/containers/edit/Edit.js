@@ -61,11 +61,11 @@ const styles = () => ({
 
 class Edit extends PureComponent{
     state = {
-        newArticle: this.props.location.state.newArticle,
-        title: this.props.location.state.title || '',
-        content: this.props.location.state.content || '',
-        tags: [],
-        value: ''
+        newArticle: this.props.newArticle || true,
+        title: this.props.title || '',
+        content: this.props.content || '',
+        tags: this.props.tags || [],
+        warningMsg: ''
     }
     handleChangeTitle = (event) => {
         this.setState({ title: event.target.value });
@@ -79,15 +79,15 @@ class Edit extends PureComponent{
     handleSaveArticle = (event,state) => {
     
         if(this.state.title===''){
-            this.setState({value: 'please enter a valid title'});
+            this.setState({warningMsg: 'please enter a valid title'});
             return;
         };
         if(this.state.content===''){
-            this.setState({value: 'please write valid content'});
+            this.setState({warningMsg: 'please write valid content'});
             return;
         };
         if(this.state.tags===[]){
-            this.setState({value: 'you must choose at least one tag'});
+            this.setState({warningMsg: 'you must choose at least one tag'});
             return;
         }
         let articleInfo = {
@@ -97,7 +97,7 @@ class Edit extends PureComponent{
             time: dateFormat(new Date(), 'yyyy-mm-dd HH:MM:ss'),
             state,
         };
-        this.props.saveArticle(this.state.newArticle,articleInfo);
+        this.props.saveArticle(true,articleInfo);
         if(state==='posted'){
            this.props.history.push('/');
         }
@@ -109,7 +109,7 @@ class Edit extends PureComponent{
         const {classes} = this.props;
         return(
             <div>
-                <Bar title="Edit Blog"/>
+                <Bar title="Edit Blog" func={()=>{this.props.toggleDrawer('editDrawer',false)}}/>
                 <div style={{backgroundColor: '#eeeeee',paddingTop:'30px',paddingBottom:'30px'}}>
                     {
                         this.props.userInfo.userId
@@ -173,7 +173,7 @@ class Edit extends PureComponent{
                                 <p className={classes.p} style={{color: '#ff0000'}}>{this.state.value}</p>
                             </div>
                         </Paper>
-                        :<Redirect to='/'/>
+                        :<div>Your session is over due. Please Login again.</div>
                     }
                 </div>
             </div>

@@ -6,11 +6,16 @@ import {connect} from 'react-redux'
 import {actions as frontActions} from '../../reducers/frontReducer';
 import './style.css';
 
-const {getArticleList} = frontActions;
+const {getArticleList, setDrawer, setArticleId} = frontActions;
 class Home extends PureComponent {
+
   componentDidMount(){
     this.props.getArticleList(this.props.match.params.tag || '');
-  }
+  };
+  handleOpenDetail = (articleId) => {
+    this.props.setArticleId(articleId);
+    this.props.setDrawer('detailDrawer',true);
+  };
   render() {
     const {tags} = this.props;
     const {tag} = this.props.match.params;
@@ -21,7 +26,7 @@ class Home extends PureComponent {
       <Redirect to='/404'/>
       :
       <div className="home-container">
-        <ArticleList data={this.props.articleList}/> 
+        <ArticleList data={this.props.articleList} openDetail = {this.handleOpenDetail.bind(this)}/> 
       </div>
     )
   }
@@ -32,11 +37,14 @@ function mapStateToProps(state){
     pageNum: state.front.pageNum,
     endOfAll: state.front.endOfAll,
     articleList: state.front.articleList,
+    detailDrawer: state.front.detailDrawer,
   };
 }
 function mapDispatchToProps(dispatch){
   return {
     getArticleList: bindActionCreators(getArticleList,dispatch),
+    setDrawer: bindActionCreators(setDrawer,dispatch),
+    setArticleId: bindActionCreators(setArticleId, dispatch),
   };
 }
 export default connect(

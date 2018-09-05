@@ -24,9 +24,6 @@ class AppIndex extends PureComponent {
                     <Switch>
                         <Route path = '/404' component={NotFound}/>
                         <Route path = '/admin' component={Admin}/>
-                        <Route path = '/edit' component={Edit}/>
-                        <Route path = '/myArticles' component={MyArticles}/>
-                        <Route path = '/detail/:id' component={Detail}/>
                         <Route component={Front}/>
                     </Switch>
                     {isFetching && <Loading/>}

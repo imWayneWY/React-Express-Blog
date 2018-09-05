@@ -47,7 +47,7 @@ class Detail extends PureComponent {
       editComment: ""
   }
   componentDidMount(){
-      this.props.getArticleDetail(this.props.match.params.id);
+      this.props.getArticleDetail(this.props.articleId);
   };
   handleChangeComment = (event) => {
     this.setState({ editComment: event.target.value});
@@ -61,10 +61,9 @@ class Detail extends PureComponent {
      showContent = content.replace(/\r\n/g,"</br>").replace(/\n/g,"<br>");}
     return (
       <div>
-          <Bar title="Article"/>
+          <Bar title={title} func={()=>{this.props.toggleDrawer('detailDrawer',false)}}/>
           <div style={{backgroundColor: '#eeeeee',paddingTop:'30px',paddingBottom:'30px'}}>
             <Paper className={classes.root}>
-                <h1>{title}</h1>
                 <h3>author: {author}</h3>
                 <p style={{fontFamily: 'Cursive',fontStyle: 'oblique'}}>last modified:({time})</p>
                 <div className={classes.content} dangerouslySetInnerHTML={{__html:showContent}}></div>
@@ -79,7 +78,7 @@ class Detail extends PureComponent {
                 {
                     this.state.isCommenting
                     ?<div>
-                        This is comment area
+                        The comment function is comming soon
                         <br/>
                         <TextField
                             className={classes.editComment}
@@ -106,6 +105,7 @@ function mapStateToProps(state) {
     return{
         userInfo: state.globalState.userInfo,
         articleDetail: state.globalState.articleDetail,
+        articleId: state.front.articleId,
     };
 }
 function mapDispatchToProps(dispatch){

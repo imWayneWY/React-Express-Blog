@@ -40,10 +40,10 @@ class Logined extends PureComponent{
                         {   
                             this.props.userInfo.userState==="actived"
                             ?<span>
-                                <Button size="small" color="primary" onClick={() => {this.props.history.push({pathname:'/edit',state:{newArticle:true}})}}>
+                                <Button size="small" color="primary" onClick={()=>{this.props.toggleDrawer('editDrawer',true)}}>
                                     PublishBlog 
                                 </Button>
-                                <Button size="small" color="primary" onClick={() => {this.props.history.push({pathname:'/myArticles',state:{newArticle:true}})}}>
+                                <Button size="small" color="primary" onClick={() => {this.props.toggleDrawer('myArticlesDrawer',true)}}>
                                     My Articles 
                                 </Button>
                             </span>

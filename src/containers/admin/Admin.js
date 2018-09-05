@@ -10,6 +10,7 @@ import AdminManageUser from './adminManageUser/AdminManageUser';
 import AdminIndex from './adminIndex/AdminIndex';
 import AdminManageTag from './adminManageTag/AdminManageTag.js';
 import Bar from '../../components/bar/Bar';
+import {withRouter} from 'react-router-dom';
 
 const styles = theme => ({
     root: {
@@ -48,7 +49,7 @@ class Admin extends PureComponent {
                     {/* <AppBar position="absolute" color="secondary" className={classes.appBar}>
                         <h2>Management Page</h2>
                     </AppBar> */}
-                    <Bar className={classes.appBar} title="Management Page"/>
+                    <Bar className={classes.appBar} title="Management Page" func={()=>{this.props.history.push('/')}}/>
                      <Drawer
                       variant="permanent"
                       classes={{
@@ -99,7 +100,7 @@ function mapDispatchToProps(dispatch){
     return{
     };
 }
-export default connect(
+export default withRouter(connect(
     mapStateToProps,
     mapDispatchToProps
-)(withStyles(styles)(Admin));
+)(withStyles(styles)(Admin)));

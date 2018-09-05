@@ -18,7 +18,7 @@ class ArticleList extends PureComponent{
             <div className={classes.root}>
                 {
                     this.props.data.map((item,index)=>(
-                        <ArticleCell key={index} data={item}/>
+                        <ArticleCell key={index} data={item} openDetail={this.props.openDetail}/>
                     ))
                 }
             </div>
