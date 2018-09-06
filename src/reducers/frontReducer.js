@@ -2,10 +2,17 @@ const initialState = {
     articleList: [],
     pageNum: 1,
     endOfAll: false,
+    
     editDrawer: false,
     myArticlesDrawer: false,
     detailDrawer: false,
+    
     articleId: '',
+    
+    myArticleList: [],
+    myArticleListPageNum: 1,
+    myArticleListTotal: 0,
+    myArticleListRowsPerPage: 10,
 };
 
 export const actionTypes = {
@@ -13,6 +20,9 @@ export const actionTypes = {
     GET_ARTICLE_LIST: "GET_ARTICLE_LIST",
     SET_DRAWER: "SET_DRAWER",
     SET_ARTICLE_ID: "SET_ARTICLE_ID",
+    RESPONSE_MY_ARTICLE_LIST: "RESPONSE_MY_ARTICLE_LIST",
+    GET_MY_ARTICLE_LIST: "GET_MY_ARTICLE_LIST"
+
 }
 
 export const actions = {
@@ -35,7 +45,14 @@ export const actions = {
             type: actionTypes.SET_ARTICLE_ID,
             id,
         }
-    }
+    },
+    getMyArticleList: function(pageNum,rowsPerPage){
+        return{
+            type: actionTypes.GET_MY_ARTICLE_LIST,
+            pageNum,
+            rowsPerPage,
+        }
+    },
 }
 
 export function reducer(state = initialState, action){
@@ -57,6 +74,16 @@ export function reducer(state = initialState, action){
               ...state,
               articleId: action.id,
             }
+        case actionTypes.RESPONSE_MY_ARTICLE_LIST:
+            console.log(action.data.pageNum);
+            return {
+                ...state,
+                myArticleList: [...action.data.list],
+                myArticleListPageNum: action.data.pageNum,
+                myArticleListRowsPerPage: action.data.rowsPerPage,
+                myArticleListTotal: action.data.total,
+            }
+  
         default:
           return state;
     }

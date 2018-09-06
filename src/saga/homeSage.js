@@ -104,8 +104,9 @@ export function* get_article_detail(){
             yield put({type:actionTypes.FETCH_START});
             let response = yield call(get, `/article/getArticleDetail?id=${id}`);
             let info = response.data;
+            let data={...info.data};
             if(info && info.code === 0){
-                yield put({type:actionTypes.RESPONSE_ARTICLE_DETAIL,data:info.data});
+                yield put({type:actionTypes.RESPONSE_ARTICLE_DETAIL,data});
             }
         }catch(err){
             console.log(err);

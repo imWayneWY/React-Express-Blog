@@ -1,21 +1,21 @@
-import React, { PureComponent } from 'react';
-import { connect } from 'react-redux';
-import { withStyles } from '@material-ui/core/styles';
-import { Redirect,withRouter } from 'react-router-dom';
-import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import Paper from '@material-ui/core/Paper';
+import Chip from '@material-ui/core/Chip';
 import Input from '@material-ui/core/Input';
 import MenuItem from '@material-ui/core/MenuItem';
+import Paper from '@material-ui/core/Paper';
 import Select from '@material-ui/core/Select';
-import Chip from '@material-ui/core/Chip';
-import {actions as tagActions} from '../../reducers/adminManageTag';
-import {actions} from '../../reducers/';
-import {bindActionCreators} from 'redux';
-import Bar from '../../components/bar/Bar';
+import { withStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
 import dateFormat from 'dateformat';
+import React, { PureComponent } from 'react';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import { bindActionCreators } from 'redux';
+import Bar from '../../components/bar/Bar';
+import { actions } from '../../reducers/';
+import { actions as tagActions } from '../../reducers/adminManageTag';
 const {getTags} = tagActions;
-const {save_article} = actions;
+const {save_article, clear_detail} = actions;
 
 const styles = () => ({
     root: {
@@ -62,10 +62,18 @@ const styles = () => ({
 class Edit extends PureComponent{
     state = {
         newArticle: this.props.newArticle || true,
-        title: this.props.title || '',
-        content: this.props.content || '',
-        tags: this.props.tags || [],
+        title: this.props.articleDetail.title || '',
+        content: this.props.articleDetail.content || '',
+        tags: this.props.articleDetail.tags || [],
         warningMsg: ''
+    };
+    componentWillReceiveProps(nextProps){
+        this.setState({
+            newArticle:nextProps.newArticle || true,
+            title: nextProps.articleDetail.title || '',
+            content: nextProps.articleDetail.content || '',
+            tags: nextProps.articleDetail.tags || [],            
+        });
     }
     handleChangeTitle = (event) => {
         this.setState({ title: event.target.value });
@@ -76,7 +84,7 @@ class Edit extends PureComponent{
     handleChangeTags = (event) => {
         this.setState({ tags: event.target.value });
     };
-    handleSaveArticle = (event,state) => {
+    handleSaveArticle = (event,articleState) => {
     
         if(this.state.title===''){
             this.setState({warningMsg: 'please enter a valid title'});
@@ -91,15 +99,18 @@ class Edit extends PureComponent{
             return;
         }
         let articleInfo = {
+            _id: this.props.articleDetail._id || '',
+            authorCheck: this.props.userInfo.username,
             title: this.state.title,
             content: this.state.content,
             tags: this.state.tags,
             time: dateFormat(new Date(), 'yyyy-mm-dd HH:MM:ss'),
-            state,
+            state: articleState,
         };
-        this.props.saveArticle(true,articleInfo);
-        if(state==='posted'){
-           this.props.history.push('/');
+        this.props.saveArticle(this.state.newArticle,articleInfo);
+        if(articleState==='posted'){
+           this.props.clearDetail();
+           this.props.toggleDrawer('editDrawer',false);
         }
     };
     componentDidMount(){
@@ -109,7 +120,7 @@ class Edit extends PureComponent{
         const {classes} = this.props;
         return(
             <div>
-                <Bar title="Edit Blog" func={()=>{this.props.toggleDrawer('editDrawer',false)}}/>
+                <Bar title="Edit Blog" func={()=>{this.props.toggleDrawer('editDrawer',false);this.props.clearDetail()}}/>
                 <div style={{backgroundColor: '#eeeeee',paddingTop:'30px',paddingBottom:'30px'}}>
                     {
                         this.props.userInfo.userId
@@ -122,6 +133,7 @@ class Edit extends PureComponent{
                                     className: classes.label
                                 }}
                                 onChange={this.handleChangeTitle}
+                                value={this.state.title}
                             />
                             <p className={classes.p}>Content:</p>
                             <TextField
@@ -135,6 +147,7 @@ class Edit extends PureComponent{
                                     input: classes.content,
                                 }}
                                 onChange={this.handleChangeContent}
+                                value={this.state.content}
                             />
                             <p className={classes.p}>Tags:</p>
                             <Select
@@ -184,12 +197,14 @@ function mapStateToProps(state) {
     return{
         userInfo: state.globalState.userInfo,
         tags: state.admin.tags,
+        articleDetail: state.globalState.articleDetail,
     };
 }
 function mapDispatchToProps(dispatch){
     return{
         getTags: bindActionCreators(getTags,dispatch),
         saveArticle: bindActionCreators(save_article,dispatch),
+        clearDetail: bindActionCreators(clear_detail,dispatch),
     };
 }
 export default withRouter(connect(

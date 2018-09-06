@@ -81,7 +81,7 @@ router.get('/userInfo',function(req,res){
 router.post('/logout',function(req,res){
     req.session.destroy();
 //    res.redirect('/');
-    responseClient(res,200,1,'logouted');
+    responseClient(res,200,0,'logouted');
 });
 
 module.exports = router;

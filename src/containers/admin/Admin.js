@@ -8,7 +8,8 @@ import Drawer from '@material-ui/core/Drawer';
 import { withStyles } from '@material-ui/core/styles';
 import AdminManageUser from './adminManageUser/AdminManageUser';
 import AdminIndex from './adminIndex/AdminIndex';
-import AdminManageTag from './adminManageTag/AdminManageTag.js';
+import AdminManageTag from './adminManageTag/AdminManageTag';
+import AdminManageArticle from './adminManageArticle/AdminManageArticle'
 import Bar from '../../components/bar/Bar';
 import {withRouter} from 'react-router-dom';
 
@@ -46,9 +47,6 @@ class Admin extends PureComponent {
             {
                 this.props.userInfo.userType==='admin'
                 ?<div className={classes.root}>
-                    {/* <AppBar position="absolute" color="secondary" className={classes.appBar}>
-                        <h2>Management Page</h2>
-                    </AppBar> */}
                     <Bar className={classes.appBar} title="Management Page" func={()=>{this.props.history.push('/')}}/>
                      <Drawer
                       variant="permanent"
@@ -58,6 +56,7 @@ class Admin extends PureComponent {
                     >
                         <div className={classes.toolbar} >
                             <List>
+
                                 <ListItem 
                                   button 
                                   component={Link}
@@ -65,6 +64,15 @@ class Admin extends PureComponent {
                                 >
                                     <ListItemText primary="Manage Users"/>
                                 </ListItem>
+
+                                <ListItem 
+                                  button
+                                  component={Link}
+                                  to={`${url}/manageArticle`}
+                                >
+                                    <ListItemText primary="Manage Articles"/>
+                                </ListItem>
+
                                 <ListItem 
                                   button
                                   component={Link}
@@ -81,6 +89,7 @@ class Admin extends PureComponent {
                             <Route exact path={url} component={AdminIndex}/>
                             <Route path={`${url}/manageUser`} component={AdminManageUser}/>
                             <Route path={`${url}/manageTag`} component={AdminManageTag}/>
+                            <Route path={`${url}/manageArticle`} component={AdminManageArticle}/>
                           </Switch>
                     </main>
               </div>

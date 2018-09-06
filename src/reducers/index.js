@@ -24,6 +24,7 @@ export const actionTypes = {
     SAVE_ARTICLE: "SAVE_ARTICLE",
     GET_ARTICLE_DETAIL: "GET_ARTICLE_DETAIL",
     RESPONSE_ARTICLE_DETAIL: "RESPONSE_ARTICLE_DETAIL",
+    CLEAR_DETAIL: "CLEAR_DETAIL",
 };
 
 export const actions = {
@@ -71,6 +72,11 @@ export const actions = {
             id,
         }
     },
+    clear_detail: function(){
+        return{
+            type: actionTypes.CLEAR_DETAIL,
+        }
+    },
 };
 
 export function reducer(state=initialState,action) {
@@ -98,7 +104,13 @@ export function reducer(state=initialState,action) {
             }
         case actionTypes.RESPONSE_ARTICLE_DETAIL:
             return{
-                ...state, articleDetail: action.data
+                ...state, 
+                articleDetail: action.data,
+            }
+        case actionTypes.CLEAR_DETAIL:
+            return{
+                ...state, 
+                articleDetail: {},
             }
         default:
             return state;

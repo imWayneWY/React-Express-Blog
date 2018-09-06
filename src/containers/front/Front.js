@@ -13,7 +13,6 @@ import {actions as tagActions} from '../../reducers/adminManageTag';
 import {actions as frontActions} from '../../reducers/frontReducer';
 import Logined from '../home/components/logined/Logined';
 import Drawer from '@material-ui/core/Drawer';
-import Button from '@material-ui/core/Button';
 import Edit from '../edit/Edit';
 import Detail from '../detail/Detail';
 import MyArticles from '../myArticles/MyArticles';
@@ -36,6 +35,7 @@ class Front extends PureComponent {
     logined = this.props.userInfo.username ?  true  : false;
     this.state = {
       logined,
+      newArticleFlg: true,
     }
   };
   toggleDrawer = (side, open) => {
@@ -55,6 +55,9 @@ class Front extends PureComponent {
       this.setState({logined: false});
     }
   };
+  setNewArticle = (newArticleFlg) => {
+    this.setState({newArticleFlg});
+  }
   componentDidMount(){
     this.props.getTags();
   };
@@ -73,7 +76,7 @@ class Front extends PureComponent {
             <div className="content">
               <Switch>
                 <Route exact path={url} component={Home}/>
-                <Route path={`/:tag:articleId?`} component={Home}/>
+                <Route path={`/:tag`} component={Home}/>
                 <Route component={NotFound}/>
               </Switch>
             </div>
@@ -82,25 +85,32 @@ class Front extends PureComponent {
             {
               this.state.logined
               ? <Logined userInfo = {this.props.userInfo} logout={this.handleLogout.bind(this)}
-                        toggleDrawer={this.toggleDrawer.bind(this)}/> 
+                        toggleDrawer={this.toggleDrawer.bind(this)}
+                        setNewArticle={this.setNewArticle.bind(this)}/> 
               : <Login login={this.props.login} register={this.props.register} />
             }
           </div>
           <MuiThemeProvider  theme={theme}>
             <Drawer anchor="right" open={this.props.editDrawer} onClose={this.toggleDrawer.bind(('editDrawer', false))}>
-                <Edit newArticle={true} toggleDrawer={this.toggleDrawer.bind(this)}/> 
+                <Edit 
+                  toggleDrawer={this.toggleDrawer.bind(this)}
+                  newArticle={this.state.newArticleFlg}/> 
             </Drawer>
           </MuiThemeProvider>
 
           <MuiThemeProvider  theme={theme}>
             <Drawer anchor="right" open={this.props.myArticlesDrawer} onClose={this.toggleDrawer.bind(('myArticlesDrawer', false))}>
-                <MyArticles  toggleDrawer={this.toggleDrawer.bind(this)}/> 
+                <MyArticles  
+                  toggleDrawer={this.toggleDrawer.bind(this)}
+                  setNewArticle={this.setNewArticle.bind(this)}/> 
             </Drawer>
           </MuiThemeProvider>
 
           <MuiThemeProvider  theme={theme}>
             <Drawer anchor="right" open={this.props.detailDrawer} onClose={this.toggleDrawer.bind(('detailDrawer', false))}>
-                <Detail  toggleDrawer={this.toggleDrawer.bind(this)}/> 
+                <Detail 
+                  toggleDrawer={this.toggleDrawer.bind(this)}
+                  setNewArticle={this.setNewArticle.bind(this)}/> 
             </Drawer>
           </MuiThemeProvider>
         </div>

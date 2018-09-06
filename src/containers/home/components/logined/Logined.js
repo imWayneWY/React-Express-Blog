@@ -12,6 +12,10 @@ class Logined extends PureComponent{
     handleLogout = (e) => {
         this.props.logout();
     }
+    handleEdit = (e) => {
+        this.props.setNewArticle(true);
+        this.props.toggleDrawer('editDrawer',true);
+    }
     render(){
         return(
             <div className="logined-container">
@@ -40,7 +44,7 @@ class Logined extends PureComponent{
                         {   
                             this.props.userInfo.userState==="actived"
                             ?<span>
-                                <Button size="small" color="primary" onClick={()=>{this.props.toggleDrawer('editDrawer',true)}}>
+                                <Button size="small" color="primary" onClick={this.handleEdit.bind(this)}>
                                     PublishBlog 
                                 </Button>
                                 <Button size="small" color="primary" onClick={() => {this.props.toggleDrawer('myArticlesDrawer',true)}}>

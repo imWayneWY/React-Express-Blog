@@ -45,7 +45,7 @@ const styles = theme => ({
         return(
             <Snackbar
                 anchorOrigin={{
-                vertical: 'top',
+                vertical: 'bottom',
                 horizontal: 'right',
                 }}
                 open={this.state.open}

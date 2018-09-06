@@ -27,7 +27,7 @@ class Bar extends PureComponent{
 
     return (
         <div className={classes.root}>
-          <AppBar position="absolute" className={classes.appBar} color={title==="Management Page"?"secondary":"primary"}>
+          <AppBar position="fixed" className={classes.appBar} color={title==="Management Page"?"secondary":"primary"}>
             <Toolbar>
               <Typography variant="title" color="inherit" className={classes.flex}>
                 {title}

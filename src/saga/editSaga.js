@@ -8,7 +8,7 @@ export function* saveArticle(newArticle,articleInfo){
         if(newArticle){
             return yield call(post, '/article/addArticle', articleInfo);
         }else{
-
+            return yield call(post, '/article/saveArticle', articleInfo);
         }
     } catch(error) {
         yield put({type:actionTypes.SET_MESSAGE,msgContent:"save article failed",msgType:0});

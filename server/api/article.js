@@ -12,7 +12,12 @@ router.post('/addArticle', function(req, res){
         tags,
         state,
     } = req.body;
+    if(!req.session.userInfo){
+        responseClient(res,400,2,'user session is over due, plz login');
+        return;
+    }
     const author = req.session.userInfo.username;
+
     const viewCount = 0;
     const commentCount = 0;
     const summary = content.length>120
@@ -35,6 +40,39 @@ router.post('/addArticle', function(req, res){
         responseClient(res);
     });
 });
+
+router.post('/saveArticle', function(req, res){
+    const {
+        _id,
+        authorCheck,
+        title,
+        content,
+        time,
+        tags,
+        state,
+    } = req.body;
+    if(!req.session.userInfo){
+        responseClient(res,400,2,'user session is over due, plz login');
+        return;
+    }
+    const author = req.session.userInfo.username;
+    if(author!==authorCheck){
+        responseClient(res,400,2,'You are not the author');
+        return;
+    }
+
+    const summary = content.length>120
+                    ? content.slice(0,120)
+                    : content;
+    Article.update({_id},{title,content,time,tags:tags.split(','),state,summary})
+        .then(result=>{
+            console.log(result);
+            responseClient(res,200,0,'save success',result)
+        }).cancel(err=>{
+        responseClient(res);
+    });
+});
+
 
 router.get('/getArticleList',function(req,res){
     let state = 'published';
@@ -97,4 +135,40 @@ router.get('/getArticleDetail',function(req,res){
             responseClient(res);
         });
 });
+
+router.get('/getMyArticleList',function(req,res){
+    let skip = (req.query.pageNum-1)<0?1:(req.query.pageNum-1)*req.query.rowsPerPage;
+    let limit = Number.parseInt(req.query.rowsPerPage,10);
+    if(!req.session.userInfo){
+        responseClient(res,400,2,'user session is over due, plz login');
+        return;
+    }
+    const author = req.session.userInfo.username;
+    
+    let searchCondition = {
+        author,
+    };
+    let responseData = {
+        total: 0,
+        list: [],
+    };
+    Article.count(searchCondition).then(count => {
+        responseData.total=count;
+
+        Article.find(searchCondition, '_id title author time state', {
+            skip,
+            limit,
+            sort: {'time': -1},
+        }).then(result => {
+            responseData.list = result;
+            responseClient(res,200,0,'success',responseData);
+        }).cancel(err => {
+            throw err;
+        });
+    }).catch(err => {
+        responseClient(res);
+    })
+
+});
+
 module.exports = router;

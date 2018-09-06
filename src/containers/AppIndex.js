@@ -1,16 +1,13 @@
 import React, { PureComponent } from 'react';
-import { BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+import { connect } from 'react-redux';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { bindActionCreators } from 'redux';
 import NotFound from '../components/notFound/NotFound';
-import Admin from './admin/Admin';
-import Front from './front/Front';
-import Edit from './edit/Edit';
-import Detail from './detail/Detail';
-import MyArticles from './myArticles/MyArticles';
-import Loading from './components/loading/Loading';
 import Notification from '../components/notification/Notification';
-import {bindActionCreators} from 'redux';
 import { actions } from '../reducers';
-import {connect} from 'react-redux';
+import Admin from './admin/Admin';
+import Loading from './components/loading/Loading';
+import Front from './front/Front';
 
 const {clear_msg , user_auth} = actions;
 

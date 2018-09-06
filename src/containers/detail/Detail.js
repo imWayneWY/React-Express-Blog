@@ -1,17 +1,16 @@
-import React, { PureComponent } from 'react'
-import { connect } from 'react-redux';
-import { withStyles } from '@material-ui/core/styles';
-import {bindActionCreators} from 'redux';
-import Bar from '../../components/bar/Bar';
-import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import Paper from '@material-ui/core/Paper';
-import Input from '@material-ui/core/Input';
-import {actions} from '../../reducers/';
-import { withRouter } from 'react-router-dom';
 import Divider from '@material-ui/core/Divider';
+import Paper from '@material-ui/core/Paper';
+import { withStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+import React, { PureComponent } from 'react';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import { bindActionCreators } from 'redux';
+import Bar from '../../components/bar/Bar';
+import { actions } from '../../reducers/';
 
-const {get_article_detail} = actions;
+const {get_article_detail, clear_detail} = actions;
 
 const styles = () => ({
     root:{
@@ -52,20 +51,31 @@ class Detail extends PureComponent {
   handleChangeComment = (event) => {
     this.setState({ editComment: event.target.value});
   };
+  handleEdit = (event) => {
+    this.props.setNewArticle(false);
+    this.props.toggleDrawer('editDrawer',true);
+  }
   render() {
     const {classes} = this.props;
     const {title,content,author,viewCount,time} = this.props.articleDetail;
-    console.log(this.props.articleDetail);
     let showContent = "";
     if(content){
      showContent = content.replace(/\r\n/g,"</br>").replace(/\n/g,"<br>");}
     return (
       <div>
-          <Bar title={title} func={()=>{this.props.toggleDrawer('detailDrawer',false)}}/>
+          <Bar title={title} func={()=>{
+              this.props.toggleDrawer('detailDrawer',false);
+              this.props.clearDetail();
+            }}/>
           <div style={{backgroundColor: '#eeeeee',paddingTop:'30px',paddingBottom:'30px'}}>
             <Paper className={classes.root}>
                 <h3>author: {author}</h3>
                 <p style={{fontFamily: 'Cursive',fontStyle: 'oblique'}}>last modified:({time})</p>
+                {
+                    this.props.userInfo.username === author
+                    ?<div><Button color='primary' size='large' onClick={this.handleEdit.bind(this)}>Edit</Button></div>
+                    :null
+                }
                 <div className={classes.content} dangerouslySetInnerHTML={{__html:showContent}}></div>
                 <Divider className={classes.divider}/>
                 <div>
@@ -111,6 +121,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch){
     return{
         getArticleDetail: bindActionCreators(get_article_detail,dispatch),
+        clearDetail: bindActionCreators(clear_detail,dispatch),
     };
 }
 export default withRouter(connect(
