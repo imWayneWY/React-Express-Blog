@@ -4,6 +4,7 @@ const initialState = {
     total: 0,
     rowsPerPage: 10,
     article: {},
+    onlyShowAuditing: false,
 };
 
 export const actionTypes = {
@@ -13,17 +14,19 @@ export const actionTypes = {
 };
 
 export const actions = {
-    getAllArticleList: function (pageNum=1,rowsPerPage=10) {
+    getAllArticleList: function (pageNum=1,rowsPerPage=10,onlyShowAuditing=false) {
         return{
             type: actionTypes.GET_ALL_ARTICLE_LIST,
             pageNum: pageNum,
-            rowsPerPage: rowsPerPage
+            rowsPerPage: rowsPerPage,
+            onlyShowAuditing,
         }
     },
-    updateArticle: function(article){
+    dealArticle: function(id,state){
         return{
             type: actionTypes.DEAL_ARTICLE,
-            article
+            id,
+            state,
         }
     }
 };
@@ -35,7 +38,8 @@ export function articles(state = initialState, action){
                 list: action.data.list,
                 pageNum: action.data.pageNum,
                 total: action.data.total,
-                rowsPerPage: action.data.rowsPerPage
+                rowsPerPage: action.data.rowsPerPage,
+                onlyShowAuditing: action.data.onlyShowAuditing,
             }
         default: 
             return state;

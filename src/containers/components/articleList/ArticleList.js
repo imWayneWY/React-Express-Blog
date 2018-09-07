@@ -60,6 +60,11 @@ class ArticleList extends PureComponent{
         event.stopPropagation();
         this.props.delArticle(id);        
     }
+    handleDeal = (event,id,isPass) => {
+        event.preventDefault();
+        event.stopPropagation();
+        this.props.dealArticle(id,isPass);
+    }
     handleClick = (event, row) => {
         let content = row.content;
         if(content){
@@ -127,8 +132,10 @@ class ArticleList extends PureComponent{
                                                 ?
                                                     process==='auditing'
                                                     ?<div>
-                                                        <Button variant="contained" color='primary'>Pass</Button>
-                                                        <Button variant="contained" color='secondary'>Veto</Button>
+                                                        <Button variant="contained" color='primary' size='small'
+                                                            onClick={(event)=>this.handleDeal(event,row._id,true)}>Pass</Button>
+                                                        <Button variant="contained" color='secondary' size='small'
+                                                            onClick={(event)=>this.handleDeal(event,row._id,false)}>Veto</Button>
                                                     </div>
                                                     :<div>---</div>
 
@@ -136,10 +143,10 @@ class ArticleList extends PureComponent{
                                                     process==='published'
                                                     ?<div>---</div>
                                                     :<div>
-                                                        <Button variant="contained" color='primary' 
-                                                                onClick={(event)=>this.handleEdit(event,row._id)}>Edit</Button>
-                                                        <Button variant="contained" color='secondary'
-                                                                onClick={(event)=>this.handleDelete(event,row._id)}>Delete</Button>
+                                                        <Button variant="contained" color='primary' size='small' 
+                                                            onClick={(event)=>this.handleEdit(event,row._id)}>Edit</Button>
+                                                        <Button variant="contained" color='secondary' size='small'
+                                                            onClick={(event)=>this.handleDelete(event,row._id)}>Delete</Button>
                                                     </div>
                                             }
 

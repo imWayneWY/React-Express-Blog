@@ -3,15 +3,23 @@ import ArticleList from '../../components/articleList/ArticleList';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {actions} from '../../../reducers/adminManageArticle';
-const {getAllArticleList} = actions;
+const {getAllArticleList,dealArticle} = actions;
 
 
 class AdminManageArticle extends PureComponent{
-    onlyShowAuditing(){
-
+    onlyShowAuditing(flg){
+        this.props.getAllArticleList(this.props.pageNum,this.props.rowsPerPage,flg);
     }
-    getAllArticleList(){
-
+    getAllArticleList(pageNum,rowsPerPage){
+        this.props.getAllArticleList(pageNum,rowsPerPage,this.props.onlyShowAuditing);
+    }
+    dealArticle(id,isPassing){
+        if(isPassing){
+            this.props.dealArticle(id,'published');
+        }else{
+            this.props.dealArticle(id,'unqualified');
+        }
+        this.props.getAllArticleList(this.props.pageNum,this.props.rowsPerPage,this.props.onlyShowAuditing);
     }
     componentDidMount(){
         this.props.getAllArticleList(1,10);
@@ -26,23 +34,26 @@ class AdminManageArticle extends PureComponent{
                     total= {this.props.total}
                     page={this.props.pageNum}
                     rowsPerPage={this.props.rowsPerPage}
+                    dealArticle = {this.dealArticle.bind(this)}
                     getList={this.getAllArticleList.bind(this)}/>
             </div>
         );
     }
 }
 function mapStateToProps(state){
-    let {pageNum, list, total, rowsPerPage} = state.admin.articles;
+    let {pageNum, list, total, rowsPerPage, onlyShowAuditing} = state.admin.articles;
     return {
         pageNum,
         list,
         total,
-        rowsPerPage
+        rowsPerPage,
+        onlyShowAuditing,
     }
 }
 function mapDispatchToProps(dispatch){
     return {
         getAllArticleList: bindActionCreators(getAllArticleList,dispatch),
+        dealArticle: bindActionCreators(dealArticle,dispatch),
     }
 }
 export default connect(
