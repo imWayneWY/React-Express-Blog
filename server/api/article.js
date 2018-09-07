@@ -4,6 +4,7 @@ const router = Express.Router();
 import Article from '../../models/article';
 import {responseClient} from '../util';
 
+
 router.post('/addArticle', function(req, res){
     const {
         title,
@@ -44,7 +45,6 @@ router.post('/addArticle', function(req, res){
 router.post('/saveArticle', function(req, res){
     const {
         _id,
-        authorCheck,
         title,
         content,
         time,
@@ -52,25 +52,31 @@ router.post('/saveArticle', function(req, res){
         state,
     } = req.body;
     if(!req.session.userInfo){
-        responseClient(res,400,2,'user session is over due, plz login');
+        responseClient(res,200,2,'user session is over due, plz login');
         return;
     }
     const author = req.session.userInfo.username;
-    if(author!==authorCheck){
-        responseClient(res,400,2,'You are not the author');
-        return;
-    }
+
 
     const summary = content.length>120
                     ? content.slice(0,120)
                     : content;
-    Article.update({_id},{title,content,time,tags:tags.split(','),state,summary})
-        .then(result=>{
-            console.log(result);
-            responseClient(res,200,0,'save success',result)
-        }).cancel(err=>{
-        responseClient(res);
-    });
+    Article.findOne({_id})
+        .then(data=>{
+            if(author!==data.author){
+                responseClient(res,200,2,'You are not the author');
+                return;
+            }
+            Article.update({_id},{title,content,time,tags:tags.split(','),state,summary})
+            .then(result=>{
+                responseClient(res,200,0,'save success',result)
+            }).cancel(err=>{
+                throw err;
+            });
+        }).catch(err=>{
+            responseClient(err);
+        })
+
 });
 
 
@@ -148,6 +154,10 @@ router.get('/getMyArticleList',function(req,res){
     let searchCondition = {
         author,
     };
+    let state = req.query.state;
+    if(state){
+        searchCondition.state = state;
+    }
     let responseData = {
         total: 0,
         list: [],
@@ -155,7 +165,7 @@ router.get('/getMyArticleList',function(req,res){
     Article.count(searchCondition).then(count => {
         responseData.total=count;
 
-        Article.find(searchCondition, '_id title author time state', {
+        Article.find(searchCondition, '_id title content author time state', {
             skip,
             limit,
             sort: {'time': -1},
@@ -170,5 +180,28 @@ router.get('/getMyArticleList',function(req,res){
     })
 
 });
+router.get('/delArticle',function(req,res){
+    let id = req.query.id;
+    const author = req.session.userInfo.username;
 
+    Article.findOne({_id:id}).
+        then(data=>{
+            if(author!==data.author){
+                responseClient(res,200,2,'You are not the author');
+                return;
+            }
+            Article.remove({_id:id})
+            .then(result=>{
+                if(result.n===1){
+                    responseClient(res,200,0,'delete success');
+                }else{
+                    responseClient(res,200,1,'this article does not exist');
+                }
+            }).cancel(err=>{
+                throw err;
+            });
+        }).catch(err=>{
+            responseClient(res);
+        });
+});
 module.exports = router;

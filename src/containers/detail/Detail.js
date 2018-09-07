@@ -9,7 +9,6 @@ import { withRouter } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import Bar from '../../components/bar/Bar';
 import { actions } from '../../reducers/';
-
 const {get_article_detail, clear_detail} = actions;
 
 const styles = () => ({
@@ -54,6 +53,7 @@ class Detail extends PureComponent {
   handleEdit = (event) => {
     this.props.setNewArticle(false);
     this.props.toggleDrawer('editDrawer',true);
+    this.props.setAfterEdit(['articleList']);
   }
   render() {
     const {classes} = this.props;
@@ -71,11 +71,7 @@ class Detail extends PureComponent {
             <Paper className={classes.root}>
                 <h3>author: {author}</h3>
                 <p style={{fontFamily: 'Cursive',fontStyle: 'oblique'}}>last modified:({time})</p>
-                {
-                    this.props.userInfo.username === author
-                    ?<div><Button color='primary' size='large' onClick={this.handleEdit.bind(this)}>Edit</Button></div>
-                    :null
-                }
+
                 <div className={classes.content} dangerouslySetInnerHTML={{__html:showContent}}></div>
                 <Divider className={classes.divider}/>
                 <div>

@@ -17,6 +17,7 @@ router.use( (req,res,next) =>{
 });
 
 router.use('/tags',require('./tag'));
+router.use('/article',require('./manageArticle'));
 router.get('/getUsers',(req,res)=>{
     let skip = (req.query.pageNum-1)<0?1:(req.query.pageNum-1)*req.query.rowsPerPage;
     let limit = Number.parseInt(req.query.rowsPerPage,10);

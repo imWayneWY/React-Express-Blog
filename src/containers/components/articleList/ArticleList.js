@@ -8,6 +8,12 @@ import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 import TablePagination from '@material-ui/core/TablePagination';
 import Paper from '@material-ui/core/Paper';
+import Dialog from '@material-ui/core/Dialog';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogActions from '@material-ui/core/DialogActions';
+import Switch from '@material-ui/core/Switch';
+
 const styles = ()=> ({
     root: {
         padding: '20px 20px 20px 20px',
@@ -23,9 +29,14 @@ const styles = ()=> ({
     },
     auditing: {
         color: '#b2a300',
-    }
+    },
 });
 class ArticleList extends PureComponent{
+    state = {
+        open: false,
+        row: {},
+        checked: false,
+    }
     handleChangePage = (event, page) => {
         this.props.getList(page+1,this.props.rowsPerPage);
     };
@@ -33,14 +44,49 @@ class ArticleList extends PureComponent{
     handleChangeRowsPerPage = event => {
         this.props.getList(this.props.pageNum, event.target.value);
     };
-    handleEdit = (event, id) => {
-        this.props.editArticle(id);
+    handleChangeCheck = (event) => {
+        this.setState({checked:event.target.checked});
+        this.props.isManage
+            ?this.props.onlyShowAuditing(event.target.checked)
+            :this.props.onlyShowPublished(event.target.checked)
     }
+    handleEdit = (event, id) => {
+        event.preventDefault();
+        event.stopPropagation();
+        this.props.editArticle(id);
+    };
+    handleDelete = (event,id) => {
+        event.preventDefault();
+        event.stopPropagation();
+        this.props.delArticle(id);        
+    }
+    handleClick = (event, row) => {
+        let content = row.content;
+        if(content){
+            row.showContent = content.replace(/\r\n/g,"</br>").replace(/\n/g,"<br>");}
+        this.setState({
+            row,
+            open:true
+        });
+    };
+    handleClose = () => {
+        this.setState({open: false});
+    };
     render(){
         const {classes} = this.props;
         return(
             <div className={classes.root}>
                 <Paper>
+                    <Switch 
+                        checked={this.state.checked}
+                        onChange={this.handleChangeCheck}
+                        value="checked"
+                    />
+                    {
+                        this.props.isManage
+                        ?<span>Only show auditing</span>
+                        :<span>Only show published</span>
+                    }
                     <Table>
                         <TableHead>
                             <TableRow>
@@ -66,7 +112,9 @@ class ArticleList extends PureComponent{
                                 }
                                 return(
                                     <TableRow
+                                    hover
                                     key={row.key}
+                                    onClick={event=>this.handleClick(event,row)}
                                     >
                                         <TableCell>{row.title}</TableCell>
                                         <TableCell>{row.author}</TableCell>
@@ -76,17 +124,23 @@ class ArticleList extends PureComponent{
                                             {
                                                 this.props.isManage
                                                 
-                                                ?<div>
-                                                    <Button variant="contained">View</Button>
-                                                    <Button variant="contained" color='secondary'>Pass</Button>
-                                                    <Button variant="contained" color='secondary'>Veto</Button>
-                                                </div>
+                                                ?
+                                                    process==='auditing'
+                                                    ?<div>
+                                                        <Button variant="contained" color='primary'>Pass</Button>
+                                                        <Button variant="contained" color='secondary'>Veto</Button>
+                                                    </div>
+                                                    :<div>---</div>
 
-                                                :<div>
+                                                :
+                                                    process==='published'
+                                                    ?<div>---</div>
+                                                    :<div>
                                                         <Button variant="contained" color='primary' 
                                                                 onClick={(event)=>this.handleEdit(event,row._id)}>Edit</Button>
-                                                        <Button variant="contained" color='secondary'>Delete</Button>
-                                                </div>
+                                                        <Button variant="contained" color='secondary'
+                                                                onClick={(event)=>this.handleDelete(event,row._id)}>Delete</Button>
+                                                    </div>
                                             }
 
                                         </TableCell>
@@ -111,6 +165,22 @@ class ArticleList extends PureComponent{
                     onChangeRowsPerPage={this.handleChangeRowsPerPage}
                     />
                 </Paper>
+                <Dialog
+                    open={this.state.open}
+                    onClose={this.handleClose}
+                    scroll='paper'
+                    aria-labelledby="scroll-dialog-title"
+                >
+                <DialogTitle id="scroll-dialog-title">{this.state.row.title}</DialogTitle>
+                <DialogContent>
+                    <div  dangerouslySetInnerHTML={{__html:this.state.row.showContent}}></div>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={this.handleClose} color="primary">
+                        Close
+                    </Button>
+                </DialogActions>
+                </Dialog>
             </div>
         );
     };

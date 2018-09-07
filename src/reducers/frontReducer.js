@@ -13,6 +13,9 @@ const initialState = {
     myArticleListPageNum: 1,
     myArticleListTotal: 0,
     myArticleListRowsPerPage: 10,
+
+    onlyShowPublished: false,
+
 };
 
 export const actionTypes = {
@@ -21,8 +24,8 @@ export const actionTypes = {
     SET_DRAWER: "SET_DRAWER",
     SET_ARTICLE_ID: "SET_ARTICLE_ID",
     RESPONSE_MY_ARTICLE_LIST: "RESPONSE_MY_ARTICLE_LIST",
-    GET_MY_ARTICLE_LIST: "GET_MY_ARTICLE_LIST"
-
+    GET_MY_ARTICLE_LIST: "GET_MY_ARTICLE_LIST",
+    DEL_ARTICLE: "DEL_ARTICLE",
 }
 
 export const actions = {
@@ -46,13 +49,20 @@ export const actions = {
             id,
         }
     },
-    getMyArticleList: function(pageNum,rowsPerPage){
+    getMyArticleList: function(pageNum,rowsPerPage,onlyShowPublished){
         return{
             type: actionTypes.GET_MY_ARTICLE_LIST,
             pageNum,
             rowsPerPage,
+            onlyShowPublished,
         }
     },
+    delArticle: function(id){
+        return{
+            type: actionTypes.DEL_ARTICLE,
+            id,
+        }
+    }
 }
 
 export function reducer(state = initialState, action){
@@ -75,15 +85,14 @@ export function reducer(state = initialState, action){
               articleId: action.id,
             }
         case actionTypes.RESPONSE_MY_ARTICLE_LIST:
-            console.log(action.data.pageNum);
             return {
                 ...state,
                 myArticleList: [...action.data.list],
                 myArticleListPageNum: action.data.pageNum,
                 myArticleListRowsPerPage: action.data.rowsPerPage,
                 myArticleListTotal: action.data.total,
+                onlyShowPublished: action.data.onlyShowPublished,
             }
-  
         default:
           return state;
     }

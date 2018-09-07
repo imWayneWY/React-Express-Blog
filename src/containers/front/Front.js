@@ -109,8 +109,7 @@ class Front extends PureComponent {
           <MuiThemeProvider  theme={theme}>
             <Drawer anchor="right" open={this.props.detailDrawer} onClose={this.toggleDrawer.bind(('detailDrawer', false))}>
                 <Detail 
-                  toggleDrawer={this.toggleDrawer.bind(this)}
-                  setNewArticle={this.setNewArticle.bind(this)}/> 
+                  toggleDrawer={this.toggleDrawer.bind(this)}/> 
             </Drawer>
           </MuiThemeProvider>
         </div>

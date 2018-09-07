@@ -14,8 +14,10 @@ import { bindActionCreators } from 'redux';
 import Bar from '../../components/bar/Bar';
 import { actions } from '../../reducers/';
 import { actions as tagActions } from '../../reducers/adminManageTag';
+import { actions as frontActions } from '../../reducers/frontReducer';
 const {getTags} = tagActions;
 const {save_article, clear_detail} = actions;
+const {getArticleList,getMyArticleList} = frontActions;
 
 const styles = () => ({
     root: {
@@ -61,7 +63,7 @@ const styles = () => ({
 
 class Edit extends PureComponent{
     state = {
-        newArticle: this.props.newArticle || true,
+        newArticle: this.props.newArticle,
         title: this.props.articleDetail.title || '',
         content: this.props.articleDetail.content || '',
         tags: this.props.articleDetail.tags || [],
@@ -69,7 +71,7 @@ class Edit extends PureComponent{
     };
     componentWillReceiveProps(nextProps){
         this.setState({
-            newArticle:nextProps.newArticle || true,
+            newArticle:nextProps.newArticle,
             title: nextProps.articleDetail.title || '',
             content: nextProps.articleDetail.content || '',
             tags: nextProps.articleDetail.tags || [],            
@@ -85,7 +87,6 @@ class Edit extends PureComponent{
         this.setState({ tags: event.target.value });
     };
     handleSaveArticle = (event,articleState) => {
-    
         if(this.state.title===''){
             this.setState({warningMsg: 'please enter a valid title'});
             return;
@@ -100,7 +101,6 @@ class Edit extends PureComponent{
         }
         let articleInfo = {
             _id: this.props.articleDetail._id || '',
-            authorCheck: this.props.userInfo.username,
             title: this.state.title,
             content: this.state.content,
             tags: this.state.tags,
@@ -112,6 +112,9 @@ class Edit extends PureComponent{
            this.props.clearDetail();
            this.props.toggleDrawer('editDrawer',false);
         }
+
+        this.props.getArticleList();
+        this.props.getMyArticleList(1,10,this.props.showOnlyPublished);
     };
     componentDidMount(){
         this.props.getTags();
@@ -198,6 +201,7 @@ function mapStateToProps(state) {
         userInfo: state.globalState.userInfo,
         tags: state.admin.tags,
         articleDetail: state.globalState.articleDetail,
+        showOnlyPublished: state.front.showOnlyPublished,
     };
 }
 function mapDispatchToProps(dispatch){
@@ -205,6 +209,8 @@ function mapDispatchToProps(dispatch){
         getTags: bindActionCreators(getTags,dispatch),
         saveArticle: bindActionCreators(save_article,dispatch),
         clearDetail: bindActionCreators(clear_detail,dispatch),
+        getArticleList: bindActionCreators(getArticleList,dispatch),
+        getMyArticleList: bindActionCreators(getMyArticleList,dispatch),
     };
 }
 export default withRouter(connect(
