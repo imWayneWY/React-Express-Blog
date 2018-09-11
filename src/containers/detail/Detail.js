@@ -8,8 +8,12 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import Bar from '../../components/bar/Bar';
+import dateFormat from 'dateformat';
 import { actions } from '../../reducers/';
+import { actions as commentActions } from '../../reducers/comment';
 const {get_article_detail, clear_detail} = actions;
+const {addComment} = commentActions;
+
 
 const styles = () => ({
     root:{
@@ -50,11 +54,17 @@ class Detail extends PureComponent {
   handleChangeComment = (event) => {
     this.setState({ editComment: event.target.value});
   };
-  handleEdit = (event) => {
-    this.props.setNewArticle(false);
-    this.props.toggleDrawer('editDrawer',true);
-    this.props.setAfterEdit(['articleList']);
-  }
+  handleComment = (event) => {
+      let comment = {};
+      comment.articleId = this.props.articleId;
+      comment.content = this.state.editComment;
+      comment.time = dateFormat(new Date(), 'yyyy-mm-dd HH:MM:ss');
+      this.props.addComment(comment);
+      this.setState({editComment: ''});
+  };
+  handleClear = (event) => {
+      this.setState({editComment: ''});
+  };
   render() {
     const {classes} = this.props;
     const {title,content,author,viewCount,time} = this.props.articleDetail;
@@ -86,17 +96,33 @@ class Detail extends PureComponent {
                     ?<div>
                         The comment function is comming soon
                         <br/>
-                        <TextField
-                            className={classes.editComment}
-                            multiline
-                            rowsMax = "8"
-                            InputProps={{
-                                disableUnderline: true,
-                            }}
-                            onChange={this.handleChangeComment}
-                        />
-                        <br/>
-                        <Button variant="contained" size="small" style={{marginLeft: '40px'}}>Commit</Button>
+                        {
+                            this.props.userInfo.username
+                            ?<div>
+                            <TextField
+                                className={classes.editComment}
+                                multiline
+                                rowsMax = "8"
+                                InputProps={{
+                                    disableUnderline: true,
+                                }}
+                                value={this.state.editComment}
+                                onChange={this.handleChangeComment}
+                            />
+                            <br/>
+                            <Button 
+                                onClick ={this.handleComment}
+                                variant="contained" size="small" 
+                                style={{marginLeft: '40px'}}
+                                color='primary'>Commit</Button>
+                            <Button 
+                                onClick ={this.handleClear}
+                                variant="contained" size="small" 
+                                style={{marginLeft: '40px'}}
+                                color='secondary'>Clear</Button>
+                            </div>
+                            :null
+                        }
                     </div>
                     :null
                 }
@@ -118,6 +144,7 @@ function mapDispatchToProps(dispatch){
     return{
         getArticleDetail: bindActionCreators(get_article_detail,dispatch),
         clearDetail: bindActionCreators(clear_detail,dispatch),
+        addComment: bindActionCreators(addComment,dispatch),
     };
 }
 export default withRouter(connect(
