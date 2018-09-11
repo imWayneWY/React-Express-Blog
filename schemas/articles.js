@@ -5,7 +5,7 @@ module.exports = new mongoose.Schema({
     summary: String,
     content: String,
     viewCount: Number,
-    commentCounter: Number,
+    commentCount: Number,
     time: String,
     author: String,
     tags: Array,

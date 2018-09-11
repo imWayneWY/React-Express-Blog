@@ -45,8 +45,8 @@ const styles = theme => ({
         return(
             <Snackbar
                 anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'right',
+                vertical: 'top',
+                horizontal: 'left',
                 }}
                 open={this.state.open}
                 autoHideDuration={6000}

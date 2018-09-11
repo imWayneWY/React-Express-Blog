@@ -17,6 +17,8 @@ import Edit from '../edit/Edit';
 import Detail from '../detail/Detail';
 import MyArticles from '../myArticles/MyArticles';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+import NavigationIcon from '@material-ui/icons/Navigation';
 const {getTags} = tagActions;
 const {getArticleList,setDrawer} = frontActions;
 const theme = createMuiTheme({
@@ -57,7 +59,10 @@ class Front extends PureComponent {
   };
   setNewArticle = (newArticleFlg) => {
     this.setState({newArticleFlg});
-  }
+  };
+  handleToTop=()=>{
+    window.scrollTo(0,0);
+  };
   componentDidMount(){
     this.props.getTags();
   };
@@ -66,6 +71,12 @@ class Front extends PureComponent {
     return (
       <div>
         <div>
+          <div className="upToTop">
+            <Button variant="extendedFab" onClick={this.handleToTop}>
+              <NavigationIcon/>
+                  Return To Top
+            </Button>
+          </div>
           <Banner />
           <Menu 
             getArticleList={this.handleGetArticleList.bind(this)}

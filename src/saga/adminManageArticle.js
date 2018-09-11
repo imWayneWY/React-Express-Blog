@@ -65,6 +65,7 @@ export function* dealArticleFlow(){
             let info = response.data;
             if(info&&info.code === 0){
                 yield put({type: actionTypes.SET_MESSAGE, msgContent:info.message,msgType:1});
+                yield put({type: managerArticleActionTypes.GET_ALL_ARTICLE_LIST,pageNum:1})
             }else{
                 yield put({type: actionTypes.SET_MESSAGE, msgContent:info.message,msgType:0});
             }

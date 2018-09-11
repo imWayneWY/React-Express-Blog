@@ -97,13 +97,13 @@ router.get('/getArticleList',function(req,res){
         list: [],
     };
     Article.count(searchCondition).then(count => {
-        let totalPage = count/5 + 1;
+        let totalPage = Number.parseInt(count/5 + 1,10);
         if(pageNum>totalPage){
             err = {
                 msg: 'unvalid page number',
             };
             throw err;
-        }else if(pageNum === totalPage){
+        }else if(Number.parseInt(pageNum,10) === totalPage){
             responseData.endOfAll = true;
         }
 
@@ -113,6 +113,7 @@ router.get('/getArticleList',function(req,res){
             sort: {'time': -1},
         }).then(result => {
             responseData.list = result;
+            responseData.pageNum = pageNum;
             responseClient(res,200,0,'success',responseData);
         }).cancel(err => {
             throw err;

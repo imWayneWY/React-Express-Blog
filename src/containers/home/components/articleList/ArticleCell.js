@@ -15,7 +15,11 @@ const styles = theme => ({
     },
     button: {
       float: 'right',
-    }
+    },
+    span:{
+        fontSize: '14px',
+        fontFamily: 'fantasy',
+    },
 });
   
 class ArticleCell extends PureComponent{
@@ -28,12 +32,17 @@ class ArticleCell extends PureComponent{
             <Paper className={classes.root} elevation={1}>
                 <h2>{this.props.data.title}</h2>
                 <p>{this.props.data.summary}</p>
-                <Button 
-                  size="medium" color='primary'
-                  onClick={this.handleClick}
-                  className={classes.button}>
-                    View Detail
-                </Button>
+                <div>
+                    <span className={classes.span}>
+                        {`view:(${this.props.data.viewCount}) | comment:(${this.props.data.commentCount})`}
+                    </span>
+                    <Button 
+                    size="medium" color='primary'
+                    onClick={this.handleClick}
+                    className={classes.button}>
+                        View Detail
+                    </Button>
+                </div>
             </Paper>
         );
     };

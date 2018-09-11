@@ -19,7 +19,6 @@ class AdminManageArticle extends PureComponent{
         }else{
             this.props.dealArticle(id,'unqualified');
         }
-        this.props.getAllArticleList(this.props.pageNum,this.props.rowsPerPage,this.props.onlyShowAuditing);
     }
     componentDidMount(){
         this.props.getAllArticleList(1,10);

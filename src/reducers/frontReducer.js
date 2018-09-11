@@ -68,12 +68,16 @@ export const actions = {
 export function reducer(state = initialState, action){
     switch(action.type){
         case actionTypes.RESPONSE_ARTICLE_LIST:
+          if(action.data.pageNum === '1'){
+              state.articleList=[];
+          };
           return {
               ...state,
-              articleList: [...action.data.list],
+            //   articleList: [...action.data.list],
+              articleList: state.articleList.concat(action.data.list),
               pageNum: action.data.pageNum,
               endOfAll: action.data.endOfAll,
-          }
+          };
         case actionTypes.SET_DRAWER:
           let newState = {};
           newState = {...state};
