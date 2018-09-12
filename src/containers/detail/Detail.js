@@ -11,6 +11,7 @@ import Bar from '../../components/bar/Bar';
 import dateFormat from 'dateformat';
 import { actions } from '../../reducers/';
 import { actions as commentActions } from '../../reducers/comment';
+import CommentList from '../commentList/CommentList';
 const {get_article_detail, clear_detail} = actions;
 const {addComment} = commentActions;
 
@@ -67,8 +68,9 @@ class Detail extends PureComponent {
   };
   render() {
     const {classes} = this.props;
-    const {title,content,author,viewCount,time} = this.props.articleDetail;
+    const {title,content,author,viewCount,commentCount,time} = this.props.articleDetail;
     let showContent = "";
+    let isUser = this.props.userInfo.username? true: false;
     if(content){
      showContent = content.replace(/\r\n/g,"</br>").replace(/\n/g,"<br>");}
     return (
@@ -88,16 +90,14 @@ class Detail extends PureComponent {
                     <span style={{fontFamily: 'Fantasy', fontSize: '14px'}}>BROWSE({viewCount})</span>
                     <Button style={{fontFamily: 'Fantasy'}} 
                         color="primary" 
-                        onClick={event=>{this.setState({isCommenting: !this.state.isCommenting})}}>Comment(0)
+                        onClick={event=>{this.setState({isCommenting: !this.state.isCommenting})}}>Comment({commentCount})
                     </Button>
                 </div>
                 {
                     this.state.isCommenting
                     ?<div>
-                        The comment function is comming soon
-                        <br/>
                         {
-                            this.props.userInfo.username
+                            isUser
                             ?<div>
                             <TextField
                                 className={classes.editComment}
@@ -123,6 +123,7 @@ class Detail extends PureComponent {
                             </div>
                             :null
                         }
+                        <CommentList articleId={this.props.articleId} isUser={isUser}/>
                     </div>
                     :null
                 }
