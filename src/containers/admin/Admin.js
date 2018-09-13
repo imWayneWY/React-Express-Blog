@@ -9,7 +9,8 @@ import { withStyles } from '@material-ui/core/styles';
 import AdminManageUser from './adminManageUser/AdminManageUser';
 import AdminIndex from './adminIndex/AdminIndex';
 import AdminManageTag from './adminManageTag/AdminManageTag';
-import AdminManageArticle from './adminManageArticle/AdminManageArticle'
+import AdminManageArticle from './adminManageArticle/AdminManageArticle';
+import AdminManageComment from './adminManageComment/AdminManageComment';
 import Bar from '../../components/bar/Bar';
 import {withRouter} from 'react-router-dom';
 
@@ -72,6 +73,14 @@ class Admin extends PureComponent {
                                 >
                                     <ListItemText primary="Manage Articles"/>
                                 </ListItem>
+                                
+                                <ListItem 
+                                  button
+                                  component={Link}
+                                  to={`${url}/manageComment`}
+                                >
+                                    <ListItemText primary="Manage Comments"/>
+                                </ListItem>
 
                                 <ListItem 
                                   button
@@ -90,6 +99,7 @@ class Admin extends PureComponent {
                             <Route path={`${url}/manageUser`} component={AdminManageUser}/>
                             <Route path={`${url}/manageTag`} component={AdminManageTag}/>
                             <Route path={`${url}/manageArticle`} component={AdminManageArticle}/>
+                            <Route path={`${url}/manageComment`} component={AdminManageComment}/>
                           </Switch>
                     </main>
               </div>

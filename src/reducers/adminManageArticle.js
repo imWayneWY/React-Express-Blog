@@ -35,6 +35,7 @@ export function articles(state = initialState, action){
     switch(action.type){
         case actionTypes.RESPONSE_ALL_ARTICLE_LIST:
             return{
+                ...state,
                 list: action.data.list,
                 pageNum: action.data.pageNum,
                 total: action.data.total,

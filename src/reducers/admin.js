@@ -2,6 +2,7 @@ import { combineReducers } from 'redux';
 import {users} from './adminManageUser';
 import {tags} from './adminManageTag';
 import {articles} from './adminManageArticle';
+import {comments} from './adminManageComment';
 export const actionTypes = {
     ADMIN_URI_LOCATION: "ADMIN_URI_LOCATION"
 };
@@ -35,6 +36,7 @@ const admin = combineReducers({
     users,
     tags,
     articles,
+    comments,
 });
 
 export default admin;
