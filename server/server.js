@@ -9,6 +9,11 @@ import compression from 'compression';
 const app = new Express();
 const port = config.port;
 
+const targetUrl = `http://${config.apiHost}:${config.apiPort}`;
+const proxy = httpProxy.createProxyServer({
+    target:targetUrl
+});
+
 app.use('/api',(req,res)=>{
     proxy.web(req,res,{target:targetUrl});
 });
@@ -16,10 +21,6 @@ app.use('/api',(req,res)=>{
 app.use('/',Express.static(path.join(__dirname,"..",'build')));
 app.use('/', connectHistoryApiFallback());
 
-const targetUrl = `http://${config.apiHost}:${config.apiPort}`;
-const proxy = httpProxy.createProxyServer({
-    target:targetUrl
-});
 
 app.use(compression());
 
